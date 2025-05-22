@@ -1,0 +1,47 @@
+from django.db import models
+
+
+class Faculties(models.Model):
+    faculty_id = models.AutoField(primary_key=True)
+    faculty_name = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'Faculties'
+
+class Departments(models.Model):
+    department_id = models.AutoField(primary_key=True)
+    department_name = models.CharField(max_length=255)
+    faculty = models.ForeignKey(Faculties, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'Departments'
+    
+class Courses(models.Model):
+    course_id = models.AutoField(primary_key=True)
+    course_name = models.CharField(max_length=255)
+    credits = models.IntegerField()
+    department = models.ForeignKey(Departments, on_delete=models.CASCADE)
+    instructor = models.ForeignKey('instructors.Instructors', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'Courses'
+    
+class Classrooms(models.Model):
+    classroom_id = models.AutoField(primary_key=True)
+    room_number = models.CharField(max_length=255)
+    building_name = models.CharField(max_length=255)
+    capacity = models.IntegerField()
+
+    class Meta:
+        db_table = 'Classrooms'
+
+class Schedules(models.Model):
+    schedule_id = models.AutoField(primary_key=True)
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    classroom = models.ForeignKey(Classrooms, on_delete=models.CASCADE)
+    day_of_week = models.CharField(max_length=255)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    class Meta:
+        db_table = 'Schedules'
