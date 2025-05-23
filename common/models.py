@@ -3,14 +3,14 @@ from django.db import models
 
 class Faculties(models.Model):
     faculty_id = models.AutoField(primary_key=True)
-    faculty_name = models.CharField(max_length=255)
+    faculty_name = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'Faculties'
 
 class Departments(models.Model):
     department_id = models.AutoField(primary_key=True)
-    department_name = models.CharField(max_length=255)
+    department_name = models.CharField(max_length=50)
     faculty = models.ForeignKey(Faculties, on_delete=models.CASCADE)
 
     class Meta:
@@ -18,7 +18,7 @@ class Departments(models.Model):
     
 class Courses(models.Model):
     course_id = models.AutoField(primary_key=True)
-    course_name = models.CharField(max_length=255)
+    course_name = models.CharField(max_length=75)
     credits = models.IntegerField()
     department = models.ForeignKey(Departments, on_delete=models.CASCADE)
     instructor = models.ForeignKey('instructors.Instructors', on_delete=models.CASCADE)
@@ -28,8 +28,8 @@ class Courses(models.Model):
     
 class Classrooms(models.Model):
     classroom_id = models.AutoField(primary_key=True)
-    room_number = models.CharField(max_length=255)
-    building_name = models.CharField(max_length=255)
+    room_number = models.CharField(max_length=20)
+    building_name = models.CharField(max_length=30)
     capacity = models.IntegerField()
 
     class Meta:
@@ -39,7 +39,7 @@ class Schedules(models.Model):
     schedule_id = models.AutoField(primary_key=True)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE)
     classroom = models.ForeignKey(Classrooms, on_delete=models.CASCADE)
-    day_of_week = models.CharField(max_length=255)
+    day_of_week = models.CharField(max_length=15)
     start_time = models.TimeField()
     end_time = models.TimeField()
 
