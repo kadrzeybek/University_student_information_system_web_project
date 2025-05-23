@@ -1,0 +1,40 @@
+/*----- login page -------*/
+
+.login-container {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.09);
+    min-height: 500px;
+    height: 100%;
+}
+
+.login-title {
+    font-weight: bold;
+}
+
+.form-check-label {
+    cursor: pointer;
+}
+
+.img-container {
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.login-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.btn-login {
+    background-color: #1d3140;
+    color: white;
+}
+    
+.row-full-height {
+    height: 80vh;
+}
