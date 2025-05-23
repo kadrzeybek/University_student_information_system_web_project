@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'students/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex">
+        {% include 'students/includes/sidebar.html' %}
+        <div class="content-wrapper">
+          <div class="row p-3 m-0">
+            <div class="col-lg-6 mb-3">
+              <div class="profile-card">
+                <h4 class="mt-3">Kişisel Bilgileri</h4>
+                <div class="profile-info">
+                  <strong>Öğrenci No:</strong> 202312345
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Id No:</strong> 11111111111
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Adı:</strong> Salih Muharrem
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Soyadı:</strong> Kütükte
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Doğum Tarihi:</strong> 11.11.2000
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+              <div class="profile-card">
+                <h4 class="mt-3">Fakülte Bilgileri</h4>
+                <div class="profile-info">
+                  <strong>Fakulte Adı:</strong> Mühendislik Fakültesi
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Bölüm Adı:</strong> Yazılım Mühendisliği
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Sınıf:</strong> 3
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Kayıt Türü:</strong> ÖSYM
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Kayıt Tarihi:</strong>  11.11.2020
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="profile-card">
+                <h4 class="mt-3">İletişim Bilgileri</h4>
+                <div class="profile-info">
+                  <strong>Telefon:</strong> 0532 123 45 67 
+                </div>
+                <hr class="profile-hr">
+                <div class="profile-info">
+                  <strong>Mail:</strong> salihMuharrem@example.com
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}

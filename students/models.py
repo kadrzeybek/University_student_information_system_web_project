@@ -13,7 +13,6 @@ class Students(models.Model):
     class Meta:
         db_table = 'Students'
 
-    
 class Enrollments(models.Model):
     enrollment_id = models.AutoField(primary_key=True)
     student = models.ForeignKey(Students, on_delete=models.CASCADE)
