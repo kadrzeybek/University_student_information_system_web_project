@@ -22,12 +22,10 @@ def profile_view(request):
         })
 
 def enroll_view(request):
-    print(request.session['user_id'])
-    enrollment = Enrollments.objects.filter(student_id=request.session['user_id']).first()
+    enrollments = Enrollments.objects.filter(student_id=request.session['user_id']).select_related('course')
 
-    print(enrollment)
     return render(request, 'students/enrollment.html', context={
-        'Enrollment': enrollment
+        'enrollments': enrollments
     })
 
 def homepage_view(request):

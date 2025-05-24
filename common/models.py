@@ -22,6 +22,8 @@ class Courses(models.Model):
     credits = models.IntegerField()
     department = models.ForeignKey(Departments, on_delete=models.CASCADE)
     instructor = models.ForeignKey('instructors.Instructors', on_delete=models.CASCADE)
+    semester = models.CharField(max_length=25, default="Unknown")
+    course_code = models.CharField(max_length=10, default="Unknown")
 
     class Meta:
         db_table = 'Courses'

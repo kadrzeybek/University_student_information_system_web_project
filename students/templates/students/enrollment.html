@@ -28,58 +28,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>CSE101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Dr. Ayşe Yılmaz</td>
-                            <td>4</td>
-                            <td>2024/2025 Güz</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>CSE101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Dr. Ayşe Yılmaz</td>
-                            <td>4</td>
-                            <td>2024/2025 Güz</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>CSE101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Dr. Ayşe Yılmaz</td>
-                            <td>4</td>
-                            <td>2024/2025 Güz</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>CSE101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Dr. Ayşe Yılmaz</td>
-                            <td>4</td>
-                            <td>2024/2025 Güz</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>CSE101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Dr. Ayşe Yılmaz</td>
-                            <td>4</td>
-                            <td>2024/2025 Güz</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>CSE101</td>
-                            <td>Programlamaya Giriş</td>
-                            <td>Dr. Ayşe Yılmaz</td>
-                            <td>4</td>
-                            <td>2024/2025 Güz</td>
-                        </tr>
                         {% for enrollment in enrollments %}
                         <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ enrollment.course.course_code}}</td>
+                            <td>{{ enrollment.course.course_name }}</td>
+                            <td>{{ enrollment.course.instructor.first_name }} {{ enrollment.course.instructor.last_name }}</td>
+                            <td>{{ enrollment.course.credits }}</td>
+                            <td>{{ enrollment.course.semester}}</td>
+                        </tr>
+                        
+                        {% endfor %}
+                        <!-- {% for enrollment in enrollments %}
+                        <tr>
                             <td>{{ enrollment.id }}</td>
-                            <td>{{ enrollment.course.name }}</td>
+                            <td>{{ enrollment.course.course.name }}</td>
                             <td>{{ enrollment.semester }}</td>
                             <td>{{ enrollment.status }}</td>
                             <td>{{ enrollment.status }}</td>
@@ -88,8 +51,8 @@
                         {% empty %}
                         <tr>
                             <td colspan="6">No enrollments found.</td>
-                        </tr>
-                        {% endfor %}
+                        </tr> -->
+                        <!-- {% endfor %} -->
                     </tbody>
                 </table>
             </div>
