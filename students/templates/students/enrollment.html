@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'students/css/enrollment.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex">
+    {% include 'students/includes/sidebar.html' %}
+    <div class="content-wrapper w-100">
+<div class="card m-3 flex-fill">
+        <div class="card-header bg-light text-center">
+            <h4 class="mb-0">Aldığım Dersler</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Ders Kodu</th>
+                            <th>Ders Adı</th>
+                            <th>Öğretim Üyesi</th>
+                            <th>Kredi</th>
+                            <th>Dönem</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>CSE101</td>
+                            <td>Programlamaya Giriş</td>
+                            <td>Dr. Ayşe Yılmaz</td>
+                            <td>4</td>
+                            <td>2024/2025 Güz</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>CSE101</td>
+                            <td>Programlamaya Giriş</td>
+                            <td>Dr. Ayşe Yılmaz</td>
+                            <td>4</td>
+                            <td>2024/2025 Güz</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>CSE101</td>
+                            <td>Programlamaya Giriş</td>
+                            <td>Dr. Ayşe Yılmaz</td>
+                            <td>4</td>
+                            <td>2024/2025 Güz</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>CSE101</td>
+                            <td>Programlamaya Giriş</td>
+                            <td>Dr. Ayşe Yılmaz</td>
+                            <td>4</td>
+                            <td>2024/2025 Güz</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>CSE101</td>
+                            <td>Programlamaya Giriş</td>
+                            <td>Dr. Ayşe Yılmaz</td>
+                            <td>4</td>
+                            <td>2024/2025 Güz</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>CSE101</td>
+                            <td>Programlamaya Giriş</td>
+                            <td>Dr. Ayşe Yılmaz</td>
+                            <td>4</td>
+                            <td>2024/2025 Güz</td>
+                        </tr>
+                        {% for enrollment in enrollments %}
+                        <tr>
+                            <td>{{ enrollment.id }}</td>
+                            <td>{{ enrollment.course.name }}</td>
+                            <td>{{ enrollment.semester }}</td>
+                            <td>{{ enrollment.status }}</td>
+                            <td>{{ enrollment.status }}</td>
+                            <td>{{ enrollment.status }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">No enrollments found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+</div>
+
+{% endblock %}
+
+
+
+
+           

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'students/css/homepage.css' %}">
+{% endblock %}
+
+
+
+
+{% block content %}
+<div class="d-flex">
+    {% include 'students/includes/sidebar.html' %}
+    <div class="w-100 p-3">
+    <h2 class="mb-4">Hoş geldiniz, <span>Salih Muharrem Kütükte</span>!</h2>
+    <!-- Info Cards -->
+    <div class="row">
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="card text-center card-size shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-2"><i class="fa-solid fa-graduation-cap text-primary"></i></div>
+                    <h6 class="card-title">Kayıtlı Ders Sayısı</h6>
+                    <p class="card-text fw-bold">10 + 1</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="card text-center card-size shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-2"><i class="fa-solid fa-chart-simple text-success"></i></div>
+                        <h6 class="card-title">Not Ortalaması</h6>
+                        <p class="card-text fw-bold">1.91</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="card text-center card-size shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-2"><i class="fa-solid fa-calendar-days text-warning"></i></div>
+                        <h6 class="card-title">Dönem</h6>
+                        <p class="card-text fw-bold">Dönem Tekrarı</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6 mb-3">
+            <div class="card text-center card-size shadow-sm">
+                <div class="card-body">
+                    <div class="card-icon mb-2"><i class="fa-solid fa-user-graduate text-danger"></i></div>
+                        <h6 class="card-title">Mezuniyet Durumu</h6>
+                        <p class="card-text fw-bold">Dönem Tekrarı</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- Announcements -->
+        <h4 class="mb-3">📢 Duyurular</h4>
+        <div id="announcementsContainer">
+            <div class="list-group mb-3">
+                <!-- Announcement items -->
+                <div class="list-group-item">
+                    <div class="d-flex">
+                        <h6 class="mb-1"><span>SEN324 | Operating System</span> - Yaz Okulu Programı <small class="text-muted">20 Mayıs 2024</small></h6>
+                    </div>
+                    <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapse1" role="button" aria-expanded="false">
+                        <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Detaylar</small>
+                    </a>
+                    <div class="collapse mt-2" id="collapse1">
+                        <div class="card card-body py-2">
+                            Yaz okulu kayıtları başlamıştır. Detaylı bilgi için ilgili birimle iletişime geçiniz.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination justify-content-center mt-4" id="pagination">
+            <!-- JS ile sayfalar otomatik eklenecek -->
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'students/js/homepage.js' %}"></script>
+{% endblock %}

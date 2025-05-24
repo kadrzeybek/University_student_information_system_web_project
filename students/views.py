@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Students
-from common.models import Departments, Faculties
+from .models import Students, Enrollments
+
 
 def profile_view(request):
     student = Students.objects.filter(student_id=request.session['user_id']).first()
@@ -20,3 +20,15 @@ def profile_view(request):
         'department': department.department_name,
         'faculty': faculty.faculty_name,
         })
+
+def enroll_view(request):
+    print(request.session['user_id'])
+    enrollment = Enrollments.objects.filter(student_id=request.session['user_id']).first()
+
+    print(enrollment)
+    return render(request, 'students/enrollment.html', context={
+        'Enrollment': enrollment
+    })
+
+def homepage_view(request):
+    return render(request, 'students/homepage.html')
