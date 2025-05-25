@@ -36,7 +36,10 @@
                             <td>{{ enrollment.course.instructor.first_name }} {{ enrollment.course.instructor.last_name }}</td>
                             <td>{{ enrollment.course.credits }}</td>
                             <td>{{ enrollment.course.semester}}</td>
-                            <td colspan="6">No courses found.</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">No enrollments found.</td>
                         </tr>
                         {% endfor %}
                     </tbody>
