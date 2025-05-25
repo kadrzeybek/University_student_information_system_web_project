@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-1fvff23(%4qt_40%pgfbil1)fgwdad8^*9fc^!i01mfrdktxs7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'university-student-information-system.onrender.com',
+]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
