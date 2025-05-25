@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import check_password
 from accounts.models import Users
 
 def login_view(request):
@@ -7,16 +8,17 @@ def login_view(request):
         password = request.POST.get('password')
         user = Users.objects.filter(username=username).first()
 
-        if user:
+        if user and check_password(password, user.password_hash):
             request.session['user_id'] = user.user_id
             if user.role == "student":
                 return redirect('homepage')  # students/urls.py'da name='profil'
             elif user.role == "instructor":
-                # Burada instructor için bir profil veya ana sayfa view'ı oluşturup yönlendirebilirsin
                 return redirect('/')  # Örnek: instructor ana sayfası
             else:
-                # Diğer roller için yönlendirme veya hata mesajı
                 pass
-        
 
     return render(request, 'accounts/login.html')
+
+def logout_view(request):
+    request.session.flush()  # Tüm oturum verilerini siler
+    return redirect('index')  # Giriş sayfasına yönlendir (veya login_view)
