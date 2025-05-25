@@ -30,3 +30,8 @@ def enroll_view(request):
 
 def homepage_view(request):
     return render(request, 'students/homepage.html')
+
+
+def grades_view(request):
+    return render(request, 'students/grades.html', context={
+    })
