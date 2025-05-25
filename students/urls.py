@@ -6,5 +6,6 @@ urlpatterns = [
     path('enroll/', views.enroll_view, name='enrollment'),
     path('homepage/', views.homepage_view, name='homepage'),
     path('grades/', views.grades_view, name='grades'),
+    path('schedule/', views.schedule_view, name='schedule'),
 
 ]

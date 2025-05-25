@@ -34,7 +34,11 @@
     background-color: #1d3140;
     color: white;
 }
-    
+.btn-login:hover{
+    background-color: #284358;
+    color: white;
+}
+
 .row-full-height {
     height: 80vh;
 }

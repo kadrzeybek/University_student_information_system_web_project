@@ -35,3 +35,8 @@ def homepage_view(request):
 def grades_view(request):
     return render(request, 'students/grades.html', context={
     })
+
+def schedule_view(request):
+    
+    return render(request, 'students/schedule.html', context={
+    })
