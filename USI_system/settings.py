@@ -32,6 +32,10 @@ ALLOWED_HOSTS = [
     'university-student-information-system.onrender.com',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://university-student-information-system.onrender.com'
+]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
