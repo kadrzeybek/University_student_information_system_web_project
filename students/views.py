@@ -2,12 +2,12 @@ from django.shortcuts import render
 from .models import Students, Enrollments
 
 
-def profile_view(request):
+def registration_view(request):
     student = Students.objects.filter(student_id=request.session['user_id']).first()
     department = student.department if student else None
     faculty = department.faculty if department else None
-    
-    return render(request,'students/profile.html', context = {
+
+    return render(request,'students/registration.html', context = {
         'student_id': student.student_id,
         'first_name': student.first_name,
         'last_name': student.last_name,
@@ -21,10 +21,10 @@ def profile_view(request):
         'faculty': faculty.faculty_name,
         })
 
-def enroll_view(request):
+def my_courses_view(request):
     enrollments = Enrollments.objects.filter(student_id=request.session['user_id']).select_related('course')
 
-    return render(request, 'students/enrollment.html', context={
+    return render(request, 'students/my_courses.html', context={
         'enrollments': enrollments
     })
 
@@ -36,7 +36,6 @@ def grades_view(request):
     return render(request, 'students/grades.html', context={
     })
 
-def schedule_view(request):
-    
-    return render(request, 'students/schedule.html', context={
+def course_program_view(request):
+    return render(request, 'students/course_program.html', context={
     })

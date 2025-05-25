@@ -7,12 +7,11 @@
             <h6 class="text-white" id="sidebarLabel">Metin Zontul University</h6>
         </div>
         <div class="pt-2">
-            <a href="#">Homepage</a>
-            <a href="#">Profile</a>
-            <a href="#">Results</a>
-            <a href="#">Kayıtlar</a>
-            <a href="#">Etkinlikler</a>
-            <a href="#">Profil</a>
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'registration' %}">Registration Info</a>
+            <a href="{% url 'grades' %}">My Exam Results</a>
+            <a href="{% url 'course_program' %}">Course Program</a>
+            <a href="{% url 'my_courses' %}">My Courses</a>
             <a href="#">Log out</a>
         </div>
     </div>
@@ -24,13 +23,12 @@
             <h6 class=" text-white" id="sidebarLabel">Metin Zontul University</h6>
         </div>
         <div class="pt-2">
-            <a href="#">Ana Sayfa</a>
-            <a href="#">Dersler</a>
-            <a href="#">Notlar</a>
-            <a href="#">Kayıtlar</a>
-            <a href="#">Etkinlikler</a>
-            <a href="#">Profil</a>
-            <a href="#">Çıkış Yap</a>
+            <a href="{% url 'homepage' %}">Home</a>
+            <a href="{% url 'registration' %}">Registration Info</a>
+            <a href="{% url 'grades' %}">My Exam Results</a>
+            <a href="{% url 'course_program' %}">Course Program</a>
+            <a href="{% url 'my_courses' %}">My Courses</a>
+            <a href="#">Log out</a>
         </div>
     </div>
 </div>
