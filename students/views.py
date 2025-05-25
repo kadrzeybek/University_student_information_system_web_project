@@ -39,13 +39,40 @@ def grades_view(request):
 def course_program_view(request):
     enrollments = Enrollments.objects.filter(student_id=request.session['user_id'])
     schedules = []
-    for enrollment in enrollments :
-        schedules.append(Schedules.objects.filter(course_id=enrollment.course_id).select_related('course','classroom').first())
-    for schedule in schedules :
-        print()   
+    for enrollment in enrollments:
+        schedule = Schedules.objects.filter(course_id=enrollment.course_id).select_related('course', 'classroom').first()
+        if schedule:
+            schedules.append(schedule)
 
+    hours = [
+        ("08:00", "09:00"), ("09:00", "10:00"), ("10:00", "11:00"),
+        ("11:00", "12:00"), ("12:00", "13:00"), ("13:00", "14:00"),
+        ("14:00", "15:00"), ("15:00", "16:00"), ("16:00", "17:00"),
+        ("17:00", "18:00"), ("19:00", "20:00"), ("20:00", "21:00"),
+        ("21:00", "22:00"), ("22:00", "23:00"), ("23:00", "24:00"),
+    ]
+    days = ["Monday", "Sunday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
+    # Düz bir tablo yapısı oluştur
+    flat_table = {}
+    for hour_start, hour_end in hours:
+        for day in days:
+            flat_key = f"{hour_start}-{hour_end}-{day}"
+            flat_table[flat_key] = ""
 
-    return render(request, 'students/course_program.html', context={
-        'schedules': schedules
+    # Ders bilgilerini ekle
+    for schedule in schedules:
+        for start, end in hours:
+            if str(schedule.start_time)[:5] == start:
+                flat_key = f"{start}-{end}-{schedule.day_of_week}"
+                flat_table[flat_key] = (
+                    f"{schedule.course.course_code} - {schedule.course.course_name}<br>"
+                    f"<small>{schedule.classroom.room_number}</small>"
+                )
+
+    # Template'e gönder
+    return render(request, 'students/course_program.html', {
+        'flat_table': flat_table,
+        'hours': hours,
+        'days': days,
     })

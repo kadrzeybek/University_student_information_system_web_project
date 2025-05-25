@@ -42,8 +42,8 @@ class Schedules(models.Model):
     course = models.ForeignKey(Courses, on_delete=models.CASCADE)
     classroom = models.ForeignKey(Classrooms, on_delete=models.CASCADE)
     day_of_week = models.CharField(max_length=15)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    start_time = models.CharField(max_length=10, default="Unknown")
+    end_time = models.CharField(max_length=10, default="Unknown")
 
     class Meta:
         db_table = 'Schedules'
