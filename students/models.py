@@ -29,7 +29,7 @@ class Grades(models.Model):
     grade_id = models.AutoField(primary_key=True)
     enrollment = models.ForeignKey(Enrollments, on_delete=models.CASCADE)
     exam = models.CharField(max_length=30, default="Unknown")
-    grade_value = models.CharField(max_length=255)
+    grade_value = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'Grades'
