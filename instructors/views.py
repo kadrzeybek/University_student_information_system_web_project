@@ -65,3 +65,6 @@ def course_program_view(request):
 def grades_view(request):
     
     return render(request, 'instructors/grades.html')
+
+def homepage_view(request):
+    return render(request, 'instructors/homepage.html')

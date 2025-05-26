@@ -5,21 +5,21 @@
                     <img src="{% static 'img/logo.png' %}" class="img-fluid logo" alt="logo image">
                     <h6 class="text-white" id="sidebarLabel">Metin Zontul University</h6>
                 </div>
-                                <div class="pt-2">
-                    <a href="./homepage.html">Ana Sayfa</a>
-                    <a href="{% url 'instructor_my_courses' %}">Dersler</a>
-                    <a href="{% url 'instructor_course_program' %}">Ders Programı</a>
-                    <a href="{% url 'instructor_profile' %}">Profil</a>
+                    <div class="pt-2">
+                    <a href="{% url 'instructor_homepage' %}">Home</a>
+                    <a href="{% url 'instructor_my_courses' %}">My Courses</a>
+                    <a href="{% url 'instructor_course_program' %}">Course Program</a>
+                    <a href="{% url 'instructor_profile' %}">Profile</a>
                     <div class="dropdown-section">
-                        <span class="dropdown-toggle-custom">Not Giriş</span>
+                        <span class="dropdown-toggle-custom">Grade Entry</span>
                         <div class="dropdown-content">
                             <a class="ms-3" href="#">Operating Systems</a>
                             <a class="ms-3" href="#">Software Quality and Standards</a>
                         </div>
                     </div>
-                    
-                    
-                    <a href="{% url 'Logout' %}">Çıkış Yap</a>
+
+
+                    <a href="{% url 'logout' %}">logout</a>
                 </div>
             </div>
         </div>
@@ -30,12 +30,12 @@
                 <h6 class=" text-white" id="sidebarLabel">Metin Zontul University</h6>
                 </div>
                 <div class="pt-2">
-                    <a href="./homepage.html">Ana Sayfa</a>
-                    <a href="{% url 'instructor_my_courses' %}">Dersler</a>
-                    <a href="{% url 'instructor_course_program' %}">Ders Programı</a>
-                    <a href="{% url 'instructor_profile' %}">Profil</a>
+                    <a href="{% url 'instructor_homepage' %}">Home</a>
+                    <a href="{% url 'instructor_my_courses' %}">My Courses</a>
+                    <a href="{% url 'instructor_course_program' %}">Course Program</a>
+                    <a href="{% url 'instructor_profile' %}">Profile</a>
                     <div class="dropdown-section">
-                        <span class="dropdown-toggle-custom">Not Giriş</span>
+                        <span class="dropdown-toggle-custom dropdown-toggle">Grade Entry</span>
                         <div class="dropdown-content">
                             <a class="ms-3" href="#">Operating Systems</a>
                             <a class="ms-3" href="#">Software Quality and Standards</a>
@@ -44,7 +44,7 @@
                             <a class="ms-3" href="#">Computer Networks</a>
                         </div>
                     </div>
-                    <a href="{% url 'Logout' %}">Çıkış Yap</a>
+                    <a href="{% url 'logout' %}">logout</a>
                 </div>
                     
             </div>
