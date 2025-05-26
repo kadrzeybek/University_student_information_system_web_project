@@ -2,8 +2,9 @@
 {% load static %}
 
 
-{% block styles %}
+{% block css %}
 <link rel="stylesheet" href="{% static 'instructors/css/sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'instructors/css/profile.css' %}">
 {% endblock %}
 
 
@@ -11,10 +12,41 @@
 {% block content %}
 <div class="d-flex">
     {% include 'instructors/includes/sidebar.html' %}
+    <div class="content-wrapper">
+                <!-- Profile Card -->
+                <div class="row m-3">
+                    
+                    <div class="col-md-6">
+                        <div class="profile-card shadow p-4">
+                            <h4>Kişisel Bilgiler</h4>
+                            <p class="profile-info"><strong>Ad:</strong> {{ instructor.first_name }}</p>
+                            <hr>
+                            <p class="profile-info"><strong>Soyad:</strong> {{ instructor.last_name }}</p>
+                            <hr>
+                            <p class="profile-info"><strong>Email:</strong> {{ instructor.email }}</p>
+                            <hr>
+                            <p class="profile-info"><strong>Telefon:</strong> {{ instructor.phone_number }}</p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-card shadow p-4">
+                            <h4>Fakülte - Bölüm Bilgileri</h4>
+                            <p class="profile-info"><strong>Fakülte:</strong> {{ instructor.faculty }}</p>
+                            <hr>
+                            <p class="profile-info"><strong>Bölüm:</strong> {{ instructor.department }}</p>
+                            <hr>
+                            <p class="profile-info"><strong>Ünvan:</strong> {{ instructor.title }}</p>
+                            <hr>
+                            <p class="profile-info"><strong>Ofis:</strong> {{ instructor.office }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </div>
 
 {% endblock %}
 
-{% block scripts %}
+{% block js %}
 <script src="{% static '/instructors/js/sidebar.js' %}"></script>
 {% endblock %}
