@@ -12,103 +12,97 @@
 {% block content %}
 <div class="d-flex">
     {% include 'instructors/includes/sidebar.html' %}
-    <div class="container m-3">
-    <h3 class="mb-4">Welcome, Dr. Ahmet Yıldız</h3>
-
-    <div class="row justify-content-between g-4">
-        
-         <div class="col-md-6">
-            <div class="card border-start border-secondary border-4 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h6 class="card-title text-muted">Number of Courses</h6>
-                    <h3 class="fw-bold text-secondary">3</h3>
+    <div class="container-fluid m-3 p-0">
+            <h3 class="mb-2">Welcome, Dr. Ahmet Yıldız</h3>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card border-start border-secondary border-4 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-muted">Number of Courses</h6>
+                            <h3 class="fw-bold text-secondary">3</h3>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Student Count -->
-        <div class="col-md-6">
-            <div class="card border-start border-secondary border-4 shadow-sm h-100">
-                <div class="card-body text-center">
-                    <h6 class="card-title text-muted">Total Number of Students</h6>
-                    <h3 class="fw-bold text-secondary">78</h3>
+                <div class="col-md-6">
+                    <div class="card border-start border-secondary border-4 shadow-sm h-100">
+                        <div class="card-body text-center">
+                            <h6 class="card-title text-muted">Total Number of Students</h6>
+                            <h3 class="fw-bold text-secondary">78</h3>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <!-- Announcement Sending Form -->
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">📢 New Announcement</h5>
-                </div>
-                <div class="card-body">
-                    <form action="/duyuru-gonder" method="post">
-                        <!-- CSRF Token -->
-<div class="accordion mb-3" id="courseAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourses" aria-expanded="false" aria-controls="collapseCourses">
-                                        Which course is it for?
-                                    </button>
-                                </h2>
-                                <div id="collapseCourses" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
-                                    <div class="accordion-body">
-                                        <!-- Örnek ders listesi -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="course" value="Operating Systems" id="course1" required>
-                                            <label class="form-check-label" for="course1">
-                                                Operating Systems
-                                            </label>
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">📢 New Announcement</h5>
+                        </div>
+                        <div class="card-body">
+                            <form action="/duyuru-gonder" method="post">
+                                <!-- CSRF Token -->
+                                <div class="accordion mb-3" id="courseAccordion">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourses" aria-expanded="false" aria-controls="collapseCourses">
+                                                Which course is it for?
+                                            </button>
+                                        </h2>
+                                        <div id="collapseCourses" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
+                                            <div class="accordion-body">
+                                                <!-- Örnek ders listesi -->
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="course" value="Operating Systems" id="course1" required>
+                                                    <label class="form-check-label" for="course1">
+                                                        Operating Systems
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="course" value="Database Management" id="course2">
+                                                    <label class="form-check-label" for="course2">
+                                                        Database Management
+                                                    </label>
+                                                </div>
+                                                
+                                            </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="course" value="Database Management" id="course2">
-                                            <label class="form-check-label" for="course2">
-                                                Database Management
-                                            </label>
-                                        </div>
-                                        
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Announcement Title</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Announcement Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                                </div>
 
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Send</button>
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-secondary">Send</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">📨 Previous Announcements</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <strong>[Operating Systems]</strong> Project submission deadline has been updated.
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>[Database Management]</strong> Quiz has been postponed to next week.
+                                </li>
+                                <!-- Dinamik şekilde listelenecek -->
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Sağ Sütun: Gönderilen Duyurular -->
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">📨 Previous Announcements</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <strong>[Operating Systems]</strong> Project submission deadline has been updated.
-                        </li>
-                        <li class="list-group-item">
-                            <strong>[Database Management]</strong> Quiz has been postponed to next week.
-                        </li>
-                        <!-- Dinamik şekilde listelenecek -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+    </div>
 </div>
 
 {% endblock %}
