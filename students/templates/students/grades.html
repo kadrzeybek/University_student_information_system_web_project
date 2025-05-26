@@ -14,27 +14,17 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ course.course_name }}</h5>
                         <ul class="list-group list-group-flush">
-                            {% for grade in course.grades %}
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>{{ grade.exam_type }}</span>
-                                <span>
-                                    {% if grade.exam_type|lower == "final" and grade.grade == None %}
-                                        Unknown
-                                    {% else %}
-                                        {{ grade.grade }}
-                                    {% endif %}
-                                </span>
+                                <span>Vize</span>
+                                <span>{{ course.midterm|default:"?" }}</span>
                             </li>
-                            {% endfor %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Final</span>
+                                <span>{{ course.final|default:"?" }}</span>
+                            </li>
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Ortalama</span>
-                                <span>
-                                    {% if course.average is not None %}
-                                        {{ course.average }}
-                                    {% else %}
-                                        Unknown
-                                    {% endif %}
-                                </span>
+                                <span>{{ course.average|default:"?" }}</span>
                             </li>
                         </ul>
                     </div>

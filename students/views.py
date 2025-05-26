@@ -35,7 +35,7 @@ def grades_view(request):
         enrollment__student_id=request.session['student_id']
     ).select_related('enrollment__course')
 
-    # Her ders için notları grupla ve ortalamayı hesapla
+    # Her ders için midterm ve final ayrı sütun olarak alınır
     course_grades = {}
     for grade in grades:
         course = grade.enrollment.course
@@ -43,21 +43,18 @@ def grades_view(request):
         if course_key not in course_grades:
             course_grades[course_key] = {
                 'course_name': course.course_name,
-                'grades': [],
-                'average': 0,
+                'midterm': grade.midterm,
+                'final': grade.final,
+                'average': None,
             }
-        course_grades[course_key]['grades'].append({
-            'exam_type': grade.exam,
-            'grade': grade.grade_value,
-        })
 
-    # Ortalama hesapla
+    # Ortalama hesapla (final yoksa average None kalır)
     for course in course_grades.values():
-        if len(course['grades']) > 1:
-            course['average'] = course['grades'][0]['grade']*0.4 + course['grades'][1]['grade']*0.6
-    
+        if course['midterm'] is not None and course['final'] is not None:
+            course['average'] = round(course['midterm'] * 0.4 + course['final'] * 0.6, 2)
+
     return render(request, 'students/grades.html', context={
-        'course_grades': course_grades.values(),  # Liste olarak gönder
+        'course_grades': course_grades.values(),
     })
 
 def course_program_view(request):
