@@ -35,12 +35,9 @@ def grades_view(request):
     })
 
 def course_program_view(request):
-    enrollments = Enrollments.objects.filter(student_id=request.session['student_id'])
-    schedules = []
-    for enrollment in enrollments:
-        schedule = Schedules.objects.filter(course_id=enrollment.course_id).select_related('course', 'classroom').first()
-        if schedule:
-            schedules.append(schedule)
+    schedules = Schedules.objects.filter(
+        course__enrollments__student_id=request.session['student_id']
+    ).select_related('course', 'classroom').distinct()
 
     hours = [
         ("08:00", "09:00"), ("09:00", "10:00"), ("10:00", "11:00"),
