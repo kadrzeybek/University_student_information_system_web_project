@@ -11,9 +11,11 @@ def login_view(request):
         if user and check_password(password, user.password_hash):
             request.session['user_id'] = user.user_id
             if user.role == "student":
-                return redirect('/instructor/profile/')  # students/urls.py'da name='profil'
+                request.session['student_id'] = user.student_id
+                return redirect('/student/homepage')  # students/urls.py'da name='profil'
             elif user.role == "instructor":
-                return redirect('profile')  # Örnek: instructor ana sayfası
+                request.session['instructor_id'] = user.instructor_id
+                return redirect('/instructor/profile')  # Örnek: instructor ana sayfası
             else:
                 pass
 
