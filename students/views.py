@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Students, Enrollments
+from .models import Students, Enrollments, Grades
 from common.models import Schedules
 
 def registration_view(request):
@@ -31,7 +31,33 @@ def homepage_view(request):
 
 
 def grades_view(request):
+    grades = Grades.objects.filter(
+        enrollment__student_id=request.session['student_id']
+    ).select_related('enrollment__course')
+
+    # Her ders için notları grupla ve ortalamayı hesapla
+    course_grades = {}
+    for grade in grades:
+        course = grade.enrollment.course
+        course_key = course.course_code
+        if course_key not in course_grades:
+            course_grades[course_key] = {
+                'course_name': course.course_name,
+                'grades': [],
+                'average': 0,
+            }
+        course_grades[course_key]['grades'].append({
+            'exam_type': grade.exam,
+            'grade': grade.grade_value,
+        })
+
+    # Ortalama hesapla
+    for course in course_grades.values():
+        if len(course['grades']) > 1:
+            course['average'] = course['grades'][0]['grade']*0.4 + course['grades'][1]['grade']*0.6
+    
     return render(request, 'students/grades.html', context={
+        'course_grades': course_grades.values(),  # Liste olarak gönder
     })
 
 def course_program_view(request):

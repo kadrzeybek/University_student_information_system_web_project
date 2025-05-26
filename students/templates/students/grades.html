@@ -3,141 +3,49 @@
 
 {% block content %}
 <div class="d-flex">
-        {% include 'students/includes/sidebar.html' %}
-                <div class="content-wrapper p-4" style="width: 100%;">
-    <h2 class="text-center mb-4">Sınav Sonuçları</h2>
+    {% include 'students/includes/sidebar.html' %}
+    <div class="content-wrapper p-4" style="width: 100%;">
+        <h2 class="text-center mb-4">Sınav Sonuçları</h2>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        <!-- Kart 1 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Cerrahi Hastalıklar</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Vize <small class="text-muted">(40%)</small></span>
-                            <span>85</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Final <small class="text-muted">(60%)</small></span>
-                            <span>78</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Ortalama </span>
-                            <span>88</span>
-                        </li>
-                    </ul>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {% for course in course_grades %}
+            <div class="col">
+                <div class="card h-100 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.course_name }}</h5>
+                        <ul class="list-group list-group-flush">
+                            {% for grade in course.grades %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>{{ grade.exam_type }}</span>
+                                <span>
+                                    {% if grade.exam_type|lower == "final" and grade.grade == None %}
+                                        Unknown
+                                    {% else %}
+                                        {{ grade.grade }}
+                                    {% endif %}
+                                </span>
+                            </li>
+                            {% endfor %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>Ortalama</span>
+                                <span>
+                                    {% if course.average is not None %}
+                                        {{ course.average }}
+                                    {% else %}
+                                        Unknown
+                                    {% endif %}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Kart 2 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">İç Hastalıkları</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Vize <small class="text-muted">(40%)</small></span>
-                            <span>65</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Final <small class="text-muted">(60%)</small></span>
-                            <span>71</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Ortalama </span>
-                            <span>88</span>
-                        </li>
-                    </ul>
-                </div>
+            {% empty %}
+            <div class="col">
+                <div class="alert alert-info">Not bulunamadı.</div>
             </div>
+            {% endfor %}
         </div>
-
-        <!-- Kart 3 -->
-        <div class="col">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Pediatri</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Vize <small class="text-muted">(40%)</small></span>
-                            <span>90</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Final <small class="text-muted">(60%)</small></span>
-                            <span>88</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Ortalama </span>
-                            <span>88</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-                <div class="col">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Cerrahi Hastalıklar</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Vize <small class="text-muted">(40%)</small></span>
-                            <span>85</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Final <small class="text-muted">(60%)</small></span>
-                            <span>78</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Ortalama </span>
-                            <span>88</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-                <div class="col">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Cerrahi Hastalıklar</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Vize <small class="text-muted">(40%)</small></span>
-                            <span>85</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Final <small class="text-muted">(60%)</small></span>
-                            <span>78</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Ortalama </span>
-                            <span>88</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100 shadow">
-                <div class="card-body">
-                    <h5 class="card-title">Cerrahi Hastalıklar</h5>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Vize <small class="text-muted">(40%)</small></span>
-                            <span>85</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Final <small class="text-muted">(60%)</small></span>
-                            <span>78</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Ortalama </span>
-                            <span>88</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
+    </div>
+</div>
 {% endblock %}
