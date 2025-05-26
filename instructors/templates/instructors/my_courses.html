@@ -12,45 +12,45 @@
 {% block content %}
 <div class="d-flex">
     {% include 'instructors/includes/sidebar.html' %}
-<div class="content-wrapper w-100">
-            <div class="card card-courses m-3 flex-fill">
-                <div class="card-header bg-light text-center">
-                    <h4 class="mb-0">Aldığım Dersler</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Ders Kodu</th>
-                                    <th>Ders Adı</th>
-                                    <th>Kredi</th>
-                                    <th>Dönem</th>
-                                    <th>Öğrenci Sayısı</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                    <tr>
-                                        <td>1</td>
-                                        <td>MTH345</td>
-                                        <td>Operating System</td>
-                                        <td>3</td>
-                                        <td>2024/2025 Güz</td>
-                                        <td>55</td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td colspan="6">No enrollments found.</td>
-                                    </tr>
-                                
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="content-wrapper w-100">
+        <div class="card card-courses m-3 flex-fill">
+            <div class="card-header bg-light text-center">
+                <h4 class="mb-0">Aldığım Dersler</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Ders Kodu</th>
+                                <th>Ders Adı</th>
+                                <th>Öğretim Üyesi</th>
+                                <th>Kredi</th>
+                                <th>Dönem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for course in courses %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ course.course_code}}</td>
+                                <td>{{ course.course_name }}</td>
+                                <td>{{ course.credits }}</td>
+                                <td>{{ course.semester}}</td>
+                                <td>test (15)</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No courses found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 {% endblock %}

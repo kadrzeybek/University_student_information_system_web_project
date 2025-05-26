@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Instructors
+from common.models import Courses
 
 def profile_view(request):
     instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).first()
@@ -20,4 +21,8 @@ def profile_view(request):
         })
 
 def courses_view(request):
-    return render(request,'instructors/my_courses.html')
+    courses = Courses.objects.filter(instructor_id=request.session['instructor_id'])
+
+    return render(request,'instructors/my_courses.html', context={
+        'courses': courses
+    })
