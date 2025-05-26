@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'instructors/css/sidebar.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="d-flex">
+    {% include 'instructors/includes/sidebar.html' %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static '/instructors/js/sidebar.js' %}"></script>
+{% endblock %}

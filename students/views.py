@@ -51,7 +51,7 @@ def course_program_view(request):
         ("17:00", "18:00"), ("19:00", "20:00"), ("20:00", "21:00"),
         ("21:00", "22:00"), ("22:00", "23:00"), ("23:00", "24:00"),
     ]
-    days = ["Monday", "Sunday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
     # Düz bir tablo yapısı oluştur
     flat_table = {}
