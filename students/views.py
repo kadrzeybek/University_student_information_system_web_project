@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Students, Enrollments
+from .models import Students, Enrollments, Grades
 from common.models import Schedules
 
 def registration_view(request):
@@ -31,6 +31,10 @@ def homepage_view(request):
 
 
 def grades_view(request):
+    enrollments = Enrollments.objects.filter(student_id=request.session['student_id']).select_related('course')
+    
+    for enrollment in enrollments
+    grades = Enrollments.objects.filter(course_id=enrollment.course_id).select_related('course', 'classroom').first()
     return render(request, 'students/grades.html', context={
     })
 
