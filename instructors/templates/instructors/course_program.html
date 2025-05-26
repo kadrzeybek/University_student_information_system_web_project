@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'instructors/css/sidebar.css' %}">
+{% endblock %}
+
+
+
+{% block content %}
+<div class="d-flex">
+    {% include 'instructors/includes/sidebar.html' %}
+    <div class="w-100 p-3">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="bg-light" style="width: 5%;">Time</th>
+                        {% for day in days %}
+                            <th>{{ day }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hour in hours %}
+                        <tr>
+                            <th class="bg-light">{{ hour.0 }}<br>{{ hour.1 }}</th>
+                            {% for day in days %}
+                                {% with flat_key=hour.0|add:"-"|add:hour.1|add:"-"|add:day %}
+                                    <td>{% autoescape off %}{{ flat_table|dict_get:flat_key }}{% endautoescape %}</td>
+                                {% endwith %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'instructors/js/sidebar.js' %}"></script>
+{% endblock %}
