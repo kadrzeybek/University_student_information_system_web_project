@@ -3,10 +3,7 @@ from .models import Instructors
 from common.models import Courses
 
 def profile_view(request):
-    instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).first()
-    department = instructor.department if instructor else None
-    faculty = department.faculty if department else None
-    print(instructor.first_name)
+    instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).select_related("department__faculty").first()
 
     return render(request,'instructors/profile.html', context = {
         'first_name': instructor.first_name,
@@ -16,8 +13,8 @@ def profile_view(request):
         'phone_number': instructor.phone_number,
         'title': instructor.title,
         'office': instructor.office,
-        'department': department.department_name,
-        'faculty': faculty.faculty_name,
+        'department': instructor.department.department_name,
+        'faculty': instructor.department.faculty.faculty_name,
         })
 
 def courses_view(request):
