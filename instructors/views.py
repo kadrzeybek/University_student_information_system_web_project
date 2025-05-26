@@ -18,3 +18,6 @@ def profile_view(request):
         'department': department.department_name,
         'faculty': faculty.faculty_name,
         })
+
+def courses_view(request):
+    return render(request,'instructors/my_courses.html')
