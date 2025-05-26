@@ -61,3 +61,7 @@ def course_program_view(request):
         'hours': hours,
         'days': days,
     })
+
+def grades_view(request):
+    
+    return render(request, 'instructors/grades.html')
