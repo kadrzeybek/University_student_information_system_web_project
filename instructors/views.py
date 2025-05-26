@@ -26,3 +26,8 @@ def courses_view(request):
     return render(request,'instructors/my_courses.html', context={
         'courses': courses
     })
+
+def course_program_view(request):
+    
+    
+    return render(request, 'instructors/course_program.html')
