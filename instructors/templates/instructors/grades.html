@@ -14,22 +14,21 @@
 
 {% block content %}
 <div class="d-flex">
-    {% include 'instructors/includes/sidebar.html' %}
+    {% include 'instructors/includes/sidebar.html' with courses=courses %}
     <div class="container-fluid p-3">
     <div class="row">
         <div class="col">
             <div class="card shadow rounded">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0 course-head">Ders: Web Programlama - Not Girişi</h5>
+                    <h5 class="mb-0 course-head">Ders: {{ course.course_code }} - {{ course.course_name }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3 d-flex justify-content-end">
                         <input type="text" id="searchInput" class="form-control " placeholder="Search student...">
                     </div>
 
-                    <form action="/notlari-kaydet" method="post">
-                        <!-- CSRF Token burada olacak (Django tarafında) -->
-
+                    <form action="{% url 'instructor_grade_entry' course.course_id %}" method="post">
+                        {% csrf_token %}
                         <div class="table-responsive">
                             <table id="gradesTable" class="table table-bordered text-center align-middle">
                                 
@@ -44,21 +43,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for student in students_data %}
                                     <tr>
-                                        <td>1</td>
-                                        <td>123456</td>
-                                        <td>Ali Yılmaz</td>
-                                        <td><input name="midterm_1" class="form-control" min="0" max="100"></td>
-                                        <td><input name="final_1" class="form-control" min="0" max="100"></td>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ student.student_id }}</td>
+                                        <td>{{ student.student_name }}</td>
+                                        <td>
+                                            <input name="midterm_{{ student.enrollment_id }}" class="form-control" min="0" max="100" 
+                                                  value="{{ student.midterm|default_if_none:'' }}">
+                                        </td>
+                                        <td>
+                                            <input name="final_{{ student.enrollment_id }}" class="form-control" min="0" max="100" 
+                                                  value="{{ student.final|default_if_none:'' }}">
+                                        </td>
                                     </tr>
+                                    {% empty %}
                                     <tr>
-                                        <td>2</td>
-                                        <td>654321</td>
-                                        <td>Ayşe Demir</td>
-                                        <td><input name="midterm_2" class="form-control" min="0" max="100"></td>
-                                        <td><input name="final_2" class="form-control" min="0" max="100"></td>
+                                        <td colspan="5" class="text-center">Bu derse kayıtlı öğrenci bulunmamaktadır.</td>
                                     </tr>
-                                    <!-- Diğer öğrenciler için aynı yapı -->
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
