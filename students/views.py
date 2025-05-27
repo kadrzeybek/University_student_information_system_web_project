@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Students, Enrollments, Grades
-from common.models import Schedules
+from common.models import Schedules, Announcements
 
 def registration_view(request):
     student = Students.objects.filter(student_id=request.session['student_id']).select_related("department__faculty").first()
@@ -17,7 +17,7 @@ def registration_view(request):
         'status': student.status,
         'department': student.department.department_name,
         'faculty': student.department.faculty.faculty_name
-        })
+    })
 
 def my_courses_view(request):
     enrollments = Enrollments.objects.filter(student_id=request.session['student_id']).select_related('course')
@@ -27,8 +27,55 @@ def my_courses_view(request):
     })
 
 def homepage_view(request):
-    return render(request, 'students/homepage.html')
-
+    student_id = request.session['student_id']
+    
+    # Öğrenci bilgilerini çek
+    student = Students.objects.filter(student_id=student_id).first()
+    
+    # Öğrencinin aldığı dersler
+    enrollments = Enrollments.objects.filter(
+        student_id=student_id
+    )
+    course_ids = enrollments.values_list('course_id', flat=True)
+    course_count = enrollments.count()  # Ders sayısı
+    
+    # Notları çekme ve GPA hesaplama
+    grades = Grades.objects.filter(
+        enrollment__student_id=student_id
+    ).select_related('enrollment__course')
+    
+    # GPA hesaplama (4.0 ölçeğinde)
+    total_credit = 0
+    weighted_sum = 0
+    
+    for grade in grades:
+        if grade.midterm is not None and grade.final is not None:
+            course = grade.enrollment.course
+            course_credit = getattr(course, 'credit', 1)  # Kredi alanı yoksa 1 varsay
+            
+            # Ağırlıklı ortalama: %40 midterm, %60 final (100 üzerinden)
+            course_grade = grade.midterm * 0.4 + grade.final * 0.6
+            
+            # 100'lük sistemden 4.0'lık sisteme basit dönüşüm
+            gpa_point = course_grade / 25
+            
+            total_credit += course_credit
+            weighted_sum += course_credit * gpa_point
+    
+    gpa = round(weighted_sum / total_credit, 2) if total_credit > 0 else 0
+    
+    # Bu derslere ait duyurular
+    announcements = Announcements.objects.filter(
+        course_id__in=course_ids
+    ).select_related('course', 'instructor').order_by('-created_at')
+    
+    return render(request, 'students/homepage.html', {
+        'student': student,
+        'course_count': course_count,
+        'gpa': gpa,
+        'semester': student.class_level,  # Öğrencinin dönemi/sınıf seviyesi
+        'announcements': announcements
+    })
 
 def grades_view(request):
     grades = Grades.objects.filter(
@@ -46,16 +93,40 @@ def grades_view(request):
                 'midterm': grade.midterm,
                 'final': grade.final,
                 'average': None,
+                'letter': None,  # Letter grade (harf notu) eklendi
             }
 
-    # Ortalama hesapla (final yoksa average None kalır)
+    # Ortalama ve harf notunu hesapla
     for course in course_grades.values():
         if course['midterm'] is not None and course['final'] is not None:
-            course['average'] = round(course['midterm'] * 0.4 + course['final'] * 0.6, 2)
+            average = round(course['midterm'] * 0.4 + course['final'] * 0.6, 2)
+            course['average'] = average
+            course['letter'] = get_letter_grade(average)  # Harf notu hesaplama
 
     return render(request, 'students/grades.html', context={
         'course_grades': course_grades.values(),
     })
+
+# Harf notu hesaplama fonksiyonu
+def get_letter_grade(score):
+    if score >= 90:
+        return "AA"
+    elif score >= 85:
+        return "BA"
+    elif score >= 80:
+        return "BB"
+    elif score >= 75:
+        return "CB"
+    elif score >= 70:
+        return "CC"
+    elif score >= 60:
+        return "DC"
+    elif score >= 50:
+        return "DD"
+    elif score >= 40:
+        return "FD"
+    else:
+        return "FF"
 
 def course_program_view(request):
     schedules = Schedules.objects.filter(

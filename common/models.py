@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Faculties(models.Model):
@@ -47,3 +48,15 @@ class Schedules(models.Model):
 
     class Meta:
         db_table = 'Schedules'
+
+class Announcements(models.Model):
+    announcement_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100)
+    message = models.TextField()
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE)
+    instructor = models.ForeignKey('instructors.Instructors', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        db_table = 'Announcements'
+        ordering = ['-created_at']

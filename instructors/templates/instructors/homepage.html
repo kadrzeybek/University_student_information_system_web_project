@@ -19,7 +19,7 @@
                     <div class="card border-start border-secondary border-4 shadow-sm h-100">
                         <div class="card-body text-center">
                             <h6 class="card-title text-muted">Number of Courses</h6>
-                            <h3 class="fw-bold text-secondary">3</h3>
+                            <h3 class="fw-bold text-secondary">{{ course_count }}</h3>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="card border-start border-secondary border-4 shadow-sm h-100">
                         <div class="card-body text-center">
                             <h6 class="card-title text-muted">Total Number of Students</h6>
-                            <h3 class="fw-bold text-secondary">78</h3>
+                            <h3 class="fw-bold text-secondary">{{ student_count }}</h3>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                             <h5 class="mb-0">📢 New Announcement</h5>
                         </div>
                         <div class="card-body">
-                            <form action="/duyuru-gonder" method="post">
+                            <form action="{% url 'instructor_announcement_create' %}" method="post">
                                 <!-- CSRF Token -->
                                 <div class="accordion mb-3" id="courseAccordion">
                                     <div class="accordion-item">
@@ -46,22 +46,20 @@
                                                 Which course is it for?
                                             </button>
                                         </h2>
+                                        <!-- Dinamik kurs listesi için -->
                                         <div id="collapseCourses" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
                                             <div class="accordion-body">
-                                                <!-- Örnek ders listesi -->
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="course" value="Operating Systems" id="course1" required>
-                                                    <label class="form-check-label" for="course1">
-                                                        Operating Systems
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="course" value="Database Management" id="course2">
-                                                    <label class="form-check-label" for="course2">
-                                                        Database Management
-                                                    </label>
-                                                </div>
-                                                
+                                                {% csrf_token %}
+                                                {% for course in courses %}
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="course" value="{{ course.course_id }}" id="course{{ course.course_id }}" required>
+                                                        <label class="form-check-label" for="course{{ course.course_id }}">
+                                                            {{ course.course_code }} - {{ course.course_name }}
+                                                        </label>
+                                                    </div>
+                                                {% empty %}
+                                                    <p class="text-muted">No courses available</p>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -88,15 +86,17 @@
                         <div class="card-header bg-secondary text-white">
                             <h5 class="mb-0">📨 Previous Announcements</h5>
                         </div>
+                        <!-- Dinamik duyuru listesi için -->
                         <div class="card-body">
                             <ul class="list-group">
-                                <li class="list-group-item">
-                                    <strong>[Operating Systems]</strong> Project submission deadline has been updated.
-                                </li>
-                                <li class="list-group-item">
-                                    <strong>[Database Management]</strong> Quiz has been postponed to next week.
-                                </li>
-                                <!-- Dinamik şekilde listelenecek -->
+                                {% for announcement in announcements %}
+                                    <li class="list-group-item">
+                                        <strong>[{{ announcement.course.course_code }}]</strong> {{ announcement.title }}
+                                        <small class="d-block text-muted">{{ announcement.created_at|date:"d/m/Y" }}</small>
+                                    </li>
+                                {% empty %}
+                                    <li class="list-group-item">No announcements yet.</li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>

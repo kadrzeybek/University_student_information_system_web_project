@@ -20,7 +20,7 @@
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-graduation-cap text-primary"></i></div>
                     <h6 class="card-title">Kayıtlı Ders Sayısı</h6>
-                    <p class="card-text fw-bold">10 + 1</p>
+                    <p class="card-text fw-bold">{{ course_count }}</p>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-chart-simple text-success"></i></div>
                         <h6 class="card-title">Not Ortalaması</h6>
-                        <p class="card-text fw-bold">1.91</p>
+                        <p class="card-text fw-bold">{{ gpa }}</p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-calendar-days text-warning"></i></div>
                         <h6 class="card-title">Dönem</h6>
-                        <p class="card-text fw-bold">Dönem Tekrarı</p>
+                        <p class="card-text fw-bold">{{ semester }}</p>
                 </div>
             </div>
         </div>
@@ -56,20 +56,27 @@
         <h4 class="mb-3">📢 Duyurular</h4>
         <div id="announcementsContainer">
             <div class="list-group mb-3">
-                <!-- Announcement items -->
-                <div class="list-group-item">
-                    <div class="d-flex">
-                        <h6 class="mb-1"><span>SEN324 | Operating System</span> - Yaz Okulu Programı <small class="text-muted">20 Mayıs 2024</small></h6>
-                    </div>
-                    <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapse1" role="button" aria-expanded="false">
-                        <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Detaylar</small>
-                    </a>
-                    <div class="collapse mt-2" id="collapse1">
-                        <div class="card card-body py-2">
-                            Yaz okulu kayıtları başlamıştır. Detaylı bilgi için ilgili birimle iletişime geçiniz.
+                {% for announcement in announcements %}
+                    <div class="list-group-item">
+                        <div class="d-flex">
+                            <h6 class="mb-1">
+                                <span>{{ announcement.course.course_code }} | {{ announcement.course.course_name }}</span> 
+                                - {{ announcement.title }} 
+                                <small class="text-muted">{{ announcement.created_at|date:"d F Y" }}</small>
+                            </h6>
+                        </div>
+                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapse{{ announcement.announcement_id }}" role="button" aria-expanded="false">
+                            <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Detaylar</small>
+                        </a>
+                        <div class="collapse mt-2" id="collapse{{ announcement.announcement_id }}">
+                            <div class="card card-body py-2">
+                                {{ announcement.message }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% empty %}
+                    <div class="list-group-item">No announcements found.</div>
+                {% endfor %}
             </div>
         </div>
         <!-- Pagination -->

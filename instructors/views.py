@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Instructors
-from common.models import Courses, Schedules
+from common.models import Courses, Schedules, Announcements
+from django.utils import timezone
+from django.db.models import Count, OuterRef, Subquery
 
 def profile_view(request):
     instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).select_related("department__faculty").first()
@@ -18,9 +21,16 @@ def profile_view(request):
         })
 
 def courses_view(request):
-    courses = Courses.objects.filter(instructor_id=request.session['instructor_id'])
-
-    return render(request,'instructors/my_courses.html', context={
+    instructor_id = request.session['instructor_id']
+    
+    # Tek sorguda kursları ve öğrenci sayılarını çek
+    courses = Courses.objects.filter(
+        instructor_id=instructor_id
+    ).annotate(
+        student_count=Count('enrollments')
+    ).order_by('course_code')
+    
+    return render(request, 'instructors/my_courses.html', {
         'courses': courses
     })
 
@@ -66,5 +76,55 @@ def grades_view(request):
     
     return render(request, 'instructors/grades.html')
 
+def announcement_create(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        message = request.POST.get('message')
+        course_id = request.POST.get('course')
+        
+        # Kurs ve instructor bilgilerini al
+        course = Courses.objects.get(course_id=course_id)
+        instructor_id = request.session.get('instructor_id')
+        
+        # Announcement oluştur
+        announcement = Announcements(
+            title=title,
+            message=message,
+            course=course,
+            instructor_id=instructor_id,
+            created_at=timezone.now()
+        )
+        announcement.save()
+        
+        messages.success(request, 'Announcement created successfully!')
+        return redirect('instructor_homepage')
+    
+    # GET isteği için kursları getir
+    courses = Courses.objects.filter(instructor_id=request.session['instructor_id'])
+    return render(request, 'instructors/create_announcement.html', {'courses': courses})
+
 def homepage_view(request):
-    return render(request, 'instructors/homepage.html')
+    instructor_id = request.session['instructor_id']
+    courses = Courses.objects.filter(instructor_id=instructor_id)
+    course_count = courses.count()
+    
+    # Benzersiz öğrenci sayısını bulma
+    from students.models import Enrollments
+    course_ids = courses.values_list('course_id', flat=True)
+    
+    # distinct('student_id') ile tekrarlı öğrencileri filtreleme
+    student_count = Enrollments.objects.filter(
+        course_id__in=course_ids
+    ).values('student_id').distinct().count()
+    
+    # Duyuruları getir
+    announcements = Announcements.objects.filter(
+        instructor_id=instructor_id
+    ).select_related('course').order_by('-created_at')[:5]
+    
+    return render(request, 'instructors/homepage.html', {
+        'course_count': course_count,
+        'student_count': student_count,
+        'courses': courses,
+        'announcements': announcements
+    })
