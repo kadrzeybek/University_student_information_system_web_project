@@ -37,11 +37,9 @@
                     <div class="dropdown-section">
                         <span class="dropdown-toggle-custom dropdown-toggle">Grade Entry</span>
                         <div class="dropdown-content">
-                            <a class="ms-3" href="#">Operating Systems</a>
-                            <a class="ms-3" href="#">Software Quality and Standards</a>
-                            <a class="ms-3" href="#">Software Engineering</a>
-                            <a class="ms-3" href="#">Database Management Systems</a>
-                            <a class="ms-3" href="#">Computer Networks</a>
+                            {% for course in courses %}
+                                <a class="ms-3" href="#">{{ course.course_name }}</a>
+                            {% endfor %}
                         </div>
                     </div>
                     <a href="{% url 'logout' %}">Logout</a>
