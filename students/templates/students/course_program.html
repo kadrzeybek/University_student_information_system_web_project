@@ -35,3 +35,33 @@
     </div>
 </div>
 {% endblock %}
+
+{% block css %}
+<style>
+    .table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #f8f9fa;
+        min-width: 120px;
+        max-width: 120px;
+        height: 60px;
+    }
+    .table th.bg-light {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+        background: #f8f9fa;
+        min-width: 80px;
+        max-width: 80px;
+        height: 60px;
+    }
+    .table td {
+        min-width: 120px;
+        max-width: 120px;
+        height: 60px;
+        vertical-align: middle;
+        word-break: break-word;
+    }
+</style>
+{% endblock %}
