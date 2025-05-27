@@ -1,21 +1,27 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'students/css/grades.css' %}">
+{% endblock %}
 {% block content %}
 <div class="d-flex">
     {% include 'students/includes/sidebar.html' %}
     <div class="content-wrapper p-4" style="width: 100%;">
-        <h2 class="text-center mb-4">Sınav Sonuçları</h2>
+        <h2 class="text-center mb-4">Exam Results</h2>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
             {% for course in course_grades %}
             <div class="col">
                 <div class="card h-100 shadow">
                     <div class="card-body">
-                        <h5 class="card-title">{{ course.course_name }} --- {{ course.letter|default:"" }}</h5>
+                        <h5 class="card-title d-flex justify-content-between align-items-center">
+                            <span>{{ course.course_name }}</span>
+                            <span class="gpa text-primary">{{ course.letter|default:"" }}</span>
+                        </h5>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Vize</span>
+                                <span>Midterm</span>
                                 <span>{{ course.midterm|default:"?" }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
@@ -23,7 +29,7 @@
                                 <span>{{ course.final|default:"?" }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between">
-                                <span>Ortalama</span>
+                                <span>Avarage</span>
                                 <span>{{ course.average|default:"?" }}</span>
                             </li>
                         </ul>

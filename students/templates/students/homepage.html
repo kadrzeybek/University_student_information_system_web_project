@@ -19,7 +19,7 @@
             <div class="card text-center card-size shadow-sm">
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-graduation-cap text-primary"></i></div>
-                    <h6 class="card-title">Kayıtlı Ders Sayısı</h6>
+                    <h6 class="card-title">Number of Enrolled Courses</h6>
                     <p class="card-text fw-bold">{{ course_count }}</p>
                 </div>
             </div>
@@ -28,7 +28,7 @@
             <div class="card text-center card-size shadow-sm">
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-chart-simple text-success"></i></div>
-                        <h6 class="card-title">Not Ortalaması</h6>
+                        <h6 class="card-title">GPA</h6>
                         <p class="card-text fw-bold">{{ gpa }}</p>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="card text-center card-size shadow-sm">
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-calendar-days text-warning"></i></div>
-                        <h6 class="card-title">Dönem</h6>
+                        <h6 class="card-title">Year</h6>
                         <p class="card-text fw-bold">{{ semester }}</p>
                 </div>
             </div>
@@ -46,34 +46,37 @@
             <div class="card text-center card-size shadow-sm">
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-user-graduate text-danger"></i></div>
-                        <h6 class="card-title">Mezuniyet Durumu</h6>
-                        <p class="card-text fw-bold">Dönem Tekrarı</p>
+                        <h6 class="card-title">Graduation Status</h6>
+                        <p class="card-text fw-bold">Repeat Semester</p>
                     </div>
                 </div>
             </div>
         </div>
             <!-- Announcements -->
-        <h4 class="mb-3">📢 Duyurular</h4>
+        <h4 class="mb-3">📢 Announcements</h4>
         <div id="announcementsContainer">
             <div class="list-group mb-3">
                 {% for announcement in announcements %}
                     <div class="list-group-item">
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-between align-items-center">
                             <h6 class="mb-1">
-                                <span>{{ announcement.course.course_code }} | {{ announcement.course.course_name }}</span> 
-                                - {{ announcement.title }} 
-                                <small class="text-muted">{{ announcement.created_at|date:"d F Y" }}</small>
+                                {{ announcement.course.course_code }} | {{ announcement.course.course_name }} - {{ announcement.title }}
                             </h6>
+                            <small class="text-muted">{{ announcement.created_at|date:"d F Y" }}</small>
                         </div>
+                    
                         <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapse{{ announcement.announcement_id }}" role="button" aria-expanded="false">
-                            <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Detaylar</small>
+                            <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Details</small>
                         </a>
+                    
                         <div class="collapse mt-2" id="collapse{{ announcement.announcement_id }}">
                             <div class="card card-body py-2">
                                 {{ announcement.message }}
                             </div>
                         </div>
                     </div>
+
+
                 {% empty %}
                     <div class="list-group-item">No announcements found.</div>
                 {% endfor %}
