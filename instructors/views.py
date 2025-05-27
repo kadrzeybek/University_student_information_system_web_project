@@ -162,8 +162,8 @@ def announcement_create(request):
     return render(request, 'instructors/create_announcement.html', {'courses': courses})
 
 def homepage_view(request):
-    instructor_id = request.session['instructor_id']
-    courses = Courses.objects.filter(instructor_id=instructor_id)
+    instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).first()
+    courses = Courses.objects.filter(instructor_id=instructor.instructor_id)
     course_count = courses.count()
     
     # Benzersiz öğrenci sayısını bulma
@@ -177,10 +177,13 @@ def homepage_view(request):
     
     # Duyuruları getir
     announcements = Announcements.objects.filter(
-        instructor_id=instructor_id
+        instructor_id=instructor.instructor_id
     ).select_related('course').order_by('-created_at')[:5]
     
     return render(request, 'instructors/homepage.html', {
+        'first_name': instructor.first_name,
+        'last_name': instructor.last_name,
+        'title': instructor.title,
         'course_count': course_count,
         'student_count': student_count,
         'courses': courses,

@@ -13,7 +13,7 @@
 <div class="d-flex">
     {% include 'instructors/includes/sidebar.html' with courses=courses %}
     <div class="container-fluid m-3 p-0">
-            <h3 class="mb-2">Welcome, Dr. Ahmet Yıldız</h3>
+            <h3 class="mb-2">Welcome, {{ title }} {{ first_name }} {{ last_name }}</h3>
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="card border-start border-secondary border-4 shadow-sm h-100">
