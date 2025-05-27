@@ -93,7 +93,7 @@ def grades_view(request):
                 'midterm': grade.midterm,
                 'final': grade.final,
                 'average': None,
-                'letter': None,  # Letter grade (harf notu) eklendi
+                'letter': None,
             }
 
     # Ortalama ve harf notunu hesapla
@@ -107,7 +107,6 @@ def grades_view(request):
         'course_grades': course_grades.values(),
     })
 
-# Harf notu hesaplama fonksiyonu
 def get_letter_grade(score):
     if score >= 90:
         return "AA"
