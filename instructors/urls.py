@@ -8,4 +8,5 @@ urlpatterns = [
     path('grades/', views.grades_view, name='instructor_grades'),
     path('homepage/', views.homepage_view, name='instructor_homepage'),
     path('announcement/create/', views.announcement_create, name='instructor_announcement_create'),
+    path('grade-entry/<int:course_id>/', views.grades_view, name='instructor_grade_entry'),
 ]

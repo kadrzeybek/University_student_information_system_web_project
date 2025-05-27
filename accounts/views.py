@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from accounts.models import Users
+from common.models import Courses
 
 def login_view(request):
     if request.method == "POST":
@@ -15,6 +16,7 @@ def login_view(request):
                 return redirect('/student/homepage')  # students/urls.py'da name='profil'
             elif user.role == "instructor":
                 request.session['instructor_id'] = user.instructor_id
+                request.session['courses'] = Courses.objects.filter(instructor_id=user.instructor_id)
                 return redirect('/instructor/homepage')  # Örnek: instructor ana sayfası
             else:
                 pass
