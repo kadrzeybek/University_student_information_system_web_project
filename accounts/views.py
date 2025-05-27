@@ -16,7 +16,6 @@ def login_view(request):
                 return redirect('/student/homepage')  # students/urls.py'da name='profil'
             elif user.role == "instructor":
                 request.session['instructor_id'] = user.instructor_id
-                request.session['courses'] = Courses.objects.filter(instructor_id=user.instructor_id)
                 return redirect('/instructor/homepage')  # Örnek: instructor ana sayfası
             else:
                 pass

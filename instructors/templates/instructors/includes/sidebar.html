@@ -14,7 +14,7 @@
                         <span class="dropdown-toggle-custom">Grade Entry</span>
                         <div class="dropdown-content">
                             {% for course in courses %}
-                                <a class="ms-3" href="#">{{ course.course_name }}</a>
+                                <a class="ms-3" href="{% url 'instructor_grade_entry' course_id=course.course_id %}">{{ course.course_name }}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                         <span class="dropdown-toggle-custom dropdown-toggle">Grade Entry</span>
                         <div class="dropdown-content">
                             {% for course in courses %}
-                                <a class="ms-3" href="#">{{ course.course_name }}</a>
+                                <a class="ms-3" href="{% url 'instructor_grade_entry' course_id=course.course_id %}">{{ course.course_name }}</a>
                             {% endfor %}
                         </div>
                     </div>

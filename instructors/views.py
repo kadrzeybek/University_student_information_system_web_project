@@ -20,7 +20,8 @@ def profile_view(request):
         'office': instructor.office,
         'department': instructor.department.department_name,
         'faculty': instructor.department.faculty.faculty_name,
-        })
+        'courses': Courses.objects.filter(instructor_id=request.session['instructor_id'])
+    })
 
 def courses_view(request):
     instructor_id = request.session['instructor_id']
@@ -72,6 +73,7 @@ def course_program_view(request):
         'flat_table': flat_table,
         'hours': hours,
         'days': days,
+        'courses': Courses.objects.filter(instructor_id=request.session['instructor_id'])
     })
 
 def grades_view(request, course_id=None):
