@@ -37,9 +37,11 @@ ALLOWED_HOSTS = [
     'universitystudentinformationsystemwebprojec-production.up.railway.app'
 ]
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 CSRF_TRUSTED_ORIGINS = [
     'https://university-student-information-system.onrender.com',
-    'https://universitystudentinformationsystemwebprojec-production.up.railway.app/'
+    'https://universitystudentinformationsystemwebprojec-production.up.railway.app'
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
