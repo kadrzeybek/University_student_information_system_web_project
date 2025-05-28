@@ -1,0 +1,55 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    min-height: 100vh;
+    background-color: #283745;
+    max-width: 250px;
+    min-width: 250px;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: block;
+    transition: background-color 0.3s, border-radius 0.3s;
+
+}
+.logo{
+    height: 80px;
+    width: 80px;
+
+}
+.sidebar a:hover {
+    border-radius: 8px;
+    background-color: #344254;
+    color: white;
+}
+
+.bg-nav {
+    background-color: #283745;
+    height: 80px;
+}
+
+.main-side {
+    display: flex;
+    position: relative; /* Sidebar'Ä± sabit konuma getirir */
+    margin-top: -80px;
+    z-index: 1500;
+}
+
+/*------------ HOMEPAGE START ---------------*/
+.card-icon {
+    font-size: 2rem;
+}
+.card-size{
+    height: 150px;
+}
