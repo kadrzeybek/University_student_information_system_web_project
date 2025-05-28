@@ -20,7 +20,7 @@ def login_view(request):
             else:
                 pass
 
-    return render(request, 'accounts/login.html')
+    return render(request, 'accounts/login.html', {'is_login_page': True})
 
 def logout_view(request):
     request.session.flush()  # Tüm oturum verilerini siler

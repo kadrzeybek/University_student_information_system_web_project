@@ -15,9 +15,11 @@
     <div class="container-fluid p-0 m-0">
         <div class="navbar navbar-dark bg-nav sticky-top">
             <div class="container-fluid">
+                {% if not is_login_page %}
                 <button class="btn btn-outline-secondary d-md-none d-inline" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
                     ≡
                 </button>
+                {% endif %}
                 <span class="navbar-brand ms-auto h1">Student Information System</span>
             </div>
         </div>
@@ -26,10 +28,6 @@
         
     </div>
     
-    
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     <script src="{% static 'js/base.js' %}"></script>
     {% block js %} {% endblock %}

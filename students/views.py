@@ -74,7 +74,8 @@ def homepage_view(request):
         'course_count': course_count,
         'gpa': gpa,
         'semester': student.class_level,  # Öğrencinin dönemi/sınıf seviyesi
-        'announcements': announcements
+        'announcements': announcements,
+        'status': student.status
     })
 
 def grades_view(request):

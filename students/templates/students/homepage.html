@@ -12,7 +12,7 @@
 <div class="d-flex">
     {% include 'students/includes/sidebar.html' %}
     <div class="w-100 p-3">
-    <h2 class="mb-4">Welcome, <span>Salih Muharrem Kütükte</span>!</h2>
+    <h2 class="mb-4">Welcome, <span>{{ student.first_name }} {{ student.last_name }}</span>!</h2>
     <!-- Info Cards -->
     <div class="row">
         <div class="col-lg-3 col-6 mb-3">
@@ -47,7 +47,7 @@
                 <div class="card-body">
                     <div class="card-icon mb-2"><i class="fa-solid fa-user-graduate text-danger"></i></div>
                         <h6 class="card-title">Graduation Status</h6>
-                        <p class="card-text fw-bold">Repeat Semester</p>
+                        <p class="card-text fw-bold">{{ status }}</p>
                     </div>
                 </div>
             </div>
