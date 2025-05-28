@@ -44,7 +44,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://universitystudentinformationsystemwebprojec-production.up.railway.app'
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 # Application definition
