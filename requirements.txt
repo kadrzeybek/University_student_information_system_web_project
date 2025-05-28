@@ -1,3 +1,4 @@
 Django>=4.2
 pymysql
 gunicorn>=23.0.0
+whitenoise
