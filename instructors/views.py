@@ -76,26 +76,24 @@ def course_program_view(request):
         'courses': Courses.objects.filter(instructor_id=request.session['instructor_id'])
     })
 
+from django.contrib import messages
+from django.http import Http404
+from django.shortcuts import render, redirect
+
 def grades_view(request, course_id=None):
     instructor_id = request.session['instructor_id']
     courses = Courses.objects.filter(instructor_id=instructor_id)
     
-    # Eğer course_id belirtilmemişse ilk kursu seç
     if course_id is None and courses.exists():
         course_id = courses.first().course_id
-    
-    # Kurs kontrolü
+
     try:
         course = Courses.objects.get(course_id=course_id, instructor_id=instructor_id)
     except Courses.DoesNotExist:
         raise Http404("Bu kursa erişim izniniz yok veya kurs bulunamadı.")
-        
-    # Öğrenci kayıtlarını ve notlarını getir
-    enrollments = Enrollments.objects.filter(
-        course_id=course_id
-    ).select_related('student')
-    
-    # Her kayıt için not bilgilerini al veya oluştur
+
+    enrollments = Enrollments.objects.filter(course_id=course_id).select_related('student')
+
     students_data = []
     for enrollment in enrollments:
         grade, created = Grades.objects.get_or_create(enrollment=enrollment)
@@ -106,15 +104,16 @@ def grades_view(request, course_id=None):
             'midterm': grade.midterm,
             'final': grade.final
         })
-    
+
     if request.method == 'POST':
-        # Form verilerini işle
+        hatali_kayitlar = 0
+
         for enrollment_id, values in request.POST.items():
             if enrollment_id.startswith('midterm_') or enrollment_id.startswith('final_'):
                 parts = enrollment_id.split('_')
-                field_type = parts[0]  # 'midterm' veya 'final'
+                field_type = parts[0]
                 enroll_id = int(parts[1])
-                
+
                 try:
                     grade = Grades.objects.get(enrollment_id=enroll_id)
                     if field_type == 'midterm' and values:
@@ -123,16 +122,21 @@ def grades_view(request, course_id=None):
                         grade.final = int(values)
                     grade.save()
                 except (Grades.DoesNotExist, ValueError):
-                    pass
+                    hatali_kayitlar += 1
+
+        if hatali_kayitlar:
+            messages.warning(request, f"{hatali_kayitlar} kayıt güncellenemedi.")
+        else:
+            messages.success(request, "Notlar başarıyla kaydedildi.")
         
-        messages.success(request, "Notlar başarıyla kaydedildi.")
         return redirect('instructor_grade_entry', course_id=course_id)
-    
+
     return render(request, 'instructors/grades.html', {
         'course': course,
-        'courses': courses,  # Sidebar için gerekli
+        'courses': courses,
         'students_data': students_data
     })
+
 
 def announcement_create(request):
     if request.method == 'POST':
