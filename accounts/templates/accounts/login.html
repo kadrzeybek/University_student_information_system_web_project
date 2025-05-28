@@ -18,6 +18,7 @@
                             <img src="{% static 'img/logo.png' %}" alt="login-img" style="width: 120px;">
                             <h6 class="login-title text-center">METIN ZONTUL UNIVERSITY</h6>
                         </div>
+                        
                         <form method="post">
                             {% csrf_token %}
                             <div class="mb-3">
@@ -26,13 +27,20 @@
                             <div class="mb-3">
                                 <input type="password" name="password" class="form-control" placeholder="Password" required>
                             </div>
+                            
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">Remember me</label>
                                 </div>
                             </div>
+                            
                             <button type="submit" class="btn btn-login w-100">Sign in</button>
+                            {% if error_message %}
+                            <div class="mb-3 ms-1 mt-2">
+                                <p class="text-danger" id="loginError">{{ error_message }}</p>
+                            </div>
+                            {% endif %}
                         </form>
                     </div>
                 </div>
@@ -40,4 +48,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'accounts/js/login.js' %}"></script>
 {% endblock %}

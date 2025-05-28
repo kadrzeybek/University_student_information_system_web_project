@@ -4,6 +4,8 @@ from accounts.models import Users
 from common.models import Courses
 
 def login_view(request):
+    error_message = None
+    
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -19,8 +21,13 @@ def login_view(request):
                 return redirect('/instructor/homepage')  # Örnek: instructor ana sayfası
             else:
                 pass
+        else:
+            error_message = "Invalid username or password"
 
-    return render(request, 'accounts/login.html', {'is_login_page': True})
+    return render(request, 'accounts/login.html', {
+        'is_login_page': True,
+        'error_message': error_message
+    })
 
 def logout_view(request):
     request.session.flush()  # Tüm oturum verilerini siler
