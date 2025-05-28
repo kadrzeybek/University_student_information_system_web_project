@@ -34,10 +34,14 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'university-student-information-system.onrender.com',
+    'universitystudentinformationsystemwebprojec-production.up.railway.app'
 ]
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 CSRF_TRUSTED_ORIGINS = [
-    'https://university-student-information-system.onrender.com'
+    'https://university-student-information-system.onrender.com',
+    'https://universitystudentinformationsystemwebprojec-production.up.railway.app'
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -66,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.middleware.AuthenticationMiddleware',  # Middleware'in burada olduğundan emin olun
 ]
 
 ROOT_URLCONF = 'USI_system.urls'

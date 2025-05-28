@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from accounts.models import Users
-from common.models import Courses
 
 def login_view(request):
     error_message = None
@@ -31,4 +30,9 @@ def login_view(request):
 
 def logout_view(request):
     request.session.flush()  # Tüm oturum verilerini siler
-    return redirect('index')  # Giriş sayfasına yönlendir (veya login_view)
+    response = redirect('index')
+    # Önbelleğe almayı engelleyen başlıklar ekle
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
