@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'accounts.middleware.AuthenticationMiddleware',  # Middleware'in burada olduğundan emin olun
 ]
 
 ROOT_URLCONF = 'USI_system.urls'
