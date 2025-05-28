@@ -2,7 +2,7 @@
 
 .login-container {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.09);
-    min-height: 500px;
+    
     height: 100%;
 }
 
@@ -30,15 +30,19 @@
     top: 0;
     left: 0;
 }
+
 .btn-login {
     background-color: #1d3140;
     color: white;
 }
+
 .btn-login:hover{
     background-color: #284358;
     color: white;
 }
 
-.row-full-height {
-    height: 80vh;
+
+
+.box-height {
+    height: 75vh;
 }

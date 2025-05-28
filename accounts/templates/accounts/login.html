@@ -3,9 +3,10 @@
 {% block css %} <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}"> {% endblock %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center row-full-height mt-4">
-    <div class="row justify-content-center w-100 h-100">
-        <div class="col-12 col-md-10 col-xl-10">
+<div class="d-flex align-items-center justify-content-center row-full-height mt-4 mt-lg-5">
+    <div class="container-fluid ">
+         <div class="row justify-content-center">
+        <div class="col-md-11 col-lg-8  box-height">
             <div class="login-container row g-0 rounded overflow-hidden shadow">
                 <!-- Sol Panel -->
                 <div class="col-md-6 d-none d-md-block img-container">
@@ -47,9 +48,12 @@
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+    </div>
 
-{% block js %}
-<script src="{% static 'accounts/js/login.js' %}"></script>
+
+
+
+
+   
+</div>
 {% endblock %}
