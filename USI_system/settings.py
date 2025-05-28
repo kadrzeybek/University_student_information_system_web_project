@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'university-student-information-system.onrender.com',
+    'universitystudentinformationsystemwebprojec-production.up.railway.app'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
