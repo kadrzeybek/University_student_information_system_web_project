@@ -39,7 +39,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [
     'https://university-student-information-system.onrender.com',
-    'universitystudentinformationsystemwebprojec-production.up.railway.app'
+    'https://universitystudentinformationsystemwebprojec-production.up.railway.app/'
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
