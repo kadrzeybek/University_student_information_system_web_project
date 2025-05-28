@@ -37,7 +37,7 @@
                             <h5 class="mb-0">📢 New Announcement</h5>
                         </div>
                         <div class="card-body">
-                            <form action="{% url 'instructor_announcement_create' %}" method="post">
+                            <form action="{% url 'instructor_announcement_create' %}" method="post" id="announcementForm">
                                 <!-- CSRF Token -->
                                 <div class="accordion mb-3" id="courseAccordion">
                                     <div class="accordion-item">
@@ -50,9 +50,12 @@
                                         <div id="collapseCourses" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
                                             <div class="accordion-body">
                                                 {% csrf_token %}
+                                                <div id="courseErrorMsg" class="alert alert-danger d-none">
+                                                    Please select a course for this announcement
+                                                </div>
                                                 {% for course in courses %}
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="course" value="{{ course.course_id }}" id="course{{ course.course_id }}" required>
+                                                        <input class="form-check-input" type="radio" name="course" value="{{ course.course_id }}" id="course{{ course.course_id }}">
                                                         <label class="form-check-label" for="course{{ course.course_id }}">
                                                             {{ course.course_code }} - {{ course.course_name }}
                                                         </label>
@@ -75,7 +78,7 @@
                                 </div>
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-secondary">Send</button>
+                                    <button type="submit" class="btn btn-lg btn-secondary">Send</button>
                                 </div>
                             </form>
                         </div>
@@ -109,4 +112,5 @@
 
 {% block js %}
 <script src="{% static '/instructors/js/sidebar.js' %}"></script>
+<script src="{% static '/instructors/js/announcement.js' %}"></script>
 {% endblock %}
