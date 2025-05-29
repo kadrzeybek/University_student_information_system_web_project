@@ -1,71 +1,100 @@
 {% extends "base.html" %}
+{# Extend the base template that contains the main layout structure #}
+
 {% load static %}
-
-
+{# Load static files for CSS, JavaScript, and images #}
 
 {% block content %}
+{# Main content block for the student homepage dashboard #}
 <div class="d-flex">
+    {# Include the sidebar navigation component #}
     {% include 'students/includes/sidebar.html' %}
+    
+    {# Main content area containing dashboard widgets #}
     <div class="w-100 p-3">
-    <h2 class="mb-4 welcome">Welcome, <span>{{ student.first_name }} {{ student.last_name }}</span>!</h2>
-    <!-- Info Cards -->
-    <div class="row">
-        <div class="col-lg-3 col-6 mb-3">
-            <div class="card text-center card-size shadow-sm">
-                <div class="card-body">
-                    <div class="card-icon mb-2"><i class="fa-solid fa-graduation-cap text-primary"></i></div>
-                    <h6 class="card-title">Number of Enrolled Courses</h6>
-                    <p class="card-text fw-bold">{{ course_count }}</p>
+        {# Personalized welcome message with student's name #}
+        <h2 class="mb-4 welcome">Welcome, <span>{{ student.first_name }} {{ student.last_name }}</span>!</h2>
+        
+        {# Dashboard info cards section - summary of student's academic status #}
+        <div class="row">
+            {# Card 1: Number of courses the student is enrolled in #}
+            <div class="col-lg-3 col-6 mb-3">
+                <div class="card text-center card-size shadow-sm">
+                    <div class="card-body">
+                        {# Icon for enrolled courses #}
+                        <div class="card-icon mb-2"><i class="fa-solid fa-graduation-cap text-primary"></i></div>
+                        <h6 class="card-title">Number of Enrolled Courses</h6>
+                        {# Dynamic count of enrolled courses #}
+                        <p class="card-text fw-bold">{{ course_count }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-6 mb-3">
-            <div class="card text-center card-size shadow-sm">
-                <div class="card-body">
-                    <div class="card-icon mb-2"><i class="fa-solid fa-chart-simple text-success"></i></div>
+            
+            {# Card 2: Student's current GPA #}
+            <div class="col-lg-3 col-6 mb-3">
+                <div class="card text-center card-size shadow-sm">
+                    <div class="card-body">
+                        {# Icon for GPA #}
+                        <div class="card-icon mb-2"><i class="fa-solid fa-chart-simple text-success"></i></div>
                         <h6 class="card-title">GPA</h6>
+                        {# Dynamic GPA calculation #}
                         <p class="card-text fw-bold">{{ gpa }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-6 mb-3">
-            <div class="card text-center card-size shadow-sm">
-                <div class="card-body">
-                    <div class="card-icon mb-2"><i class="fa-solid fa-calendar-days text-warning"></i></div>
+            
+            {# Card 3: Current academic year/semester #}
+            <div class="col-lg-3 col-6 mb-3">
+                <div class="card text-center card-size shadow-sm">
+                    <div class="card-body">
+                        {# Icon for academic year #}
+                        <div class="card-icon mb-2"><i class="fa-solid fa-calendar-days text-warning"></i></div>
                         <h6 class="card-title">Year</h6>
+                        {# Current semester information #}
                         <p class="card-text fw-bold">{{ semester }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-3 col-6 mb-3">
-            <div class="card text-center card-size shadow-sm">
-                <div class="card-body">
-                    <div class="card-icon mb-2"><i class="fa-solid fa-user-graduate text-danger"></i></div>
+            
+            {# Card 4: Student's graduation status #}
+            <div class="col-lg-3 col-6 mb-3">
+                <div class="card text-center card-size shadow-sm">
+                    <div class="card-body">
+                        {# Icon for graduation status #}
+                        <div class="card-icon mb-2"><i class="fa-solid fa-user-graduate text-danger"></i></div>
                         <h6 class="card-title">Graduation Status</h6>
+                        {# Current progress toward graduation #}
                         <p class="card-text fw-bold">{{ status }}</p>
                     </div>
                 </div>
             </div>
         </div>
-            <!-- Announcements -->
+        
+        {# Announcements section - displays course-related announcements #}
         <h4 class="mb-3">📢 Announcements</h4>
         <div id="announcementsContainer">
             <div class="list-group mb-3">
+                {# Loop through each announcement from enrolled courses #}
                 {% for announcement in announcements %}
                     <div class="list-group-item">
+                        {# Announcement header with course code, name and title #}
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="mb-1 text-break">
                                 {{ announcement.course.course_code }} | {{ announcement.course.course_name }} - {{ announcement.title }}
                             </h6>
+                            {# Display announcement date in formatted style #}
                             <small class="text-muted text-nowrap">{{ announcement.created_at|date:"d F Y" }}</small>
                         </div>
                     
+                        {# Collapsible details toggle button #}
                         <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapse{{ announcement.announcement_id }}" role="button" aria-expanded="false">
                             <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i>Details</small>
                         </a>
                     
+                        {# Collapsible announcement content section #}
                         <div class="collapse mt-2" id="collapse{{ announcement.announcement_id }}">
                             <div class="card card-body py-2">
+                                {# Full announcement message with text wrapping for long content #}
                                 <div class="text-break">
                                     {{ announcement.message }}
                                 </div>
@@ -73,22 +102,24 @@
                         </div>
                     </div>
 
-
+                {# Display a message when no announcements are available #}
                 {% empty %}
                     <div class="list-group-item">No announcements found.</div>
                 {% endfor %}
             </div>
         </div>
-        <!-- Pagination -->
+        
+        {# Pagination navigation for announcements when there are many #}
         <nav>
             <ul class="pagination justify-content-center mt-4" id="pagination">
+                {# Pagination links are generated dynamically via JavaScript #}
             </ul>
         </nav>
     </div>
 </div>
-
 {% endblock %}
 
 {% block js %}
+{# Include JavaScript for announcement pagination and other interactive features #}
 <script src="{% static 'students/js/homepage.js' %}"></script>
 {% endblock %}

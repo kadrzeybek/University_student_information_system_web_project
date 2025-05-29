@@ -1,70 +1,110 @@
 {% extends "base.html" %}
+{# Extend the base template that contains the main layout structure #}
+
 {% load static %}
+{# Load static files for CSS, JavaScript, and images #}
 
 {% block css %}
+{# Add page-specific CSS for styling the student profile #}
 <link rel="stylesheet" href="{% static 'students/css/profile.css' %}">
 {% endblock %}
 
 {% block content %}
+{# Main content block for displaying student registration information #}
 <div class="d-flex">
+        {# Include the sidebar navigation component #}
         {% include 'students/includes/sidebar.html' %}
+        
+        {# Main content wrapper for the profile information cards #}
         <div class="content-wrapper">
           <div class="row p-3 m-0">
+            {# Left column: Personal Information card #}
             <div class="col-lg-6 mb-3">
               <div class="profile-card">
+                {# Section title for personal details #}
                 <h4 class="mt-3">Personal Information</h4>
+                
+                {# Student ID number field #}
                 <div class="profile-info">
                   <strong>Student Number:</strong> {{ student_id }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# National/Identity ID number field #}
                 <div class="profile-info">
                   <strong>ID Number:</strong> {{ identity_no }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's first name field #}
                 <div class="profile-info">
                   <strong>Name:</strong> {{ first_name }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's last name field #}
                 <div class="profile-info">
                   <strong>Surname:</strong> {{ last_name }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's birth date field #}
                 <div class="profile-info">
                   <strong>Date of Birth:</strong> {{ date_of_birth }}
                 </div>
               </div>
             </div>
+            
+            {# Right column: Academic/Faculty Information card #}
             <div class="col-lg-6 mb-3">
               <div class="profile-card">
+                {# Section title for academic details #}
                 <h4 class="mt-3">Faculty Information</h4>
+                
+                {# Student's faculty name #}
                 <div class="profile-info">
                   <strong>Faculty:</strong> {{ faculty }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's department within faculty #}
                 <div class="profile-info">
                   <strong>Department:</strong> {{ department }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's current year/class level #}
                 <div class="profile-info">
                   <strong>Year:</strong> {{ class_level }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's enrollment status (active, etc.) #}
                 <div class="profile-info">
                   <strong>Status:</strong> {{ status }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Date when student was first registered #}
                 <div class="profile-info">
                   <strong>Registration Date:</strong>  11.11.2020
                 </div>
               </div>
             </div>
+            
+            {# Bottom full-width card: Contact Information #}
             <div class="col-lg-12">
               <div class="profile-card">
+                {# Section title for contact details #}
                 <h4 class="mt-3">Contact Information</h4>
+                
+                {# Student's phone number #}
                 <div class="profile-info">
                   <strong>Phone Number:</strong> {{ phone_number }}
                 </div>
                 <hr class="profile-hr">
+                
+                {# Student's email address #}
                 <div class="profile-info">
                   <strong>E-Mail:</strong> {{ email }}
                 </div>
@@ -73,5 +113,4 @@
           </div>
         </div>
     </div>
-
 {% endblock %}

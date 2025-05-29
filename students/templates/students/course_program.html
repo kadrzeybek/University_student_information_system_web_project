@@ -1,31 +1,52 @@
 {% extends "base.html" %}
+{# Extend the base template that contains the main layout structure #}
+
 {% load static %}
+{# Load static files (CSS, JavaScript, images) #}
+
 {% load custom_filters %}
+{# Load custom template filters for advanced data manipulation #}
 
 {% block css %}
+{# Add page-specific CSS for styling the course program #}
 <link rel="stylesheet" href="{% static 'students/css/course_program.css' %}">
 {% endblock %}
 
 {% block content %}
+{# Main content block that displays the weekly course schedule #}
 <div class="d-flex">
+    {# Include the sidebar navigation component #}
     {% include 'students/includes/sidebar.html' %}
+    
+    {# Main content area containing the timetable #}
     <div class="w-100 p-3">
+        {# Responsive table container to handle overflow on small screens #}
         <div class="table-responsive">
+            {# Weekly schedule table with days as columns and hours as rows #}
             <table class="table table-bordered text-center align-middle">
+                {# Table header showing the days of the week #}
                 <thead class="table-light">
                     <tr>
+                        {# First cell is for time labels #}
                         <th class="bg-light" style="width: 5%;">Time</th>
+                        {# Generate column headers for each day of the week #}
                         {% for day in days %}
                             <th>{{ day }}</th>
                         {% endfor %}
                     </tr>
                 </thead>
+                {# Table body containing time slots and scheduled courses #}
                 <tbody>
+                    {# Loop through each time slot (hour) in the schedule #}
                     {% for hour in hours %}
                         <tr>
+                            {# Display the start and end time of this hour slot #}
                             <th class="bg-light">{{ hour.0 }}<br>{{ hour.1 }}</th>
+                            {# For each day, create a cell showing any scheduled courses #}
                             {% for day in days %}
+                                {# Create a unique key to look up the course in the flat_table dictionary #}
                                 {% with flat_key=hour.0|add:"-"|add:hour.1|add:"-"|add:day %}
+                                    {# Display course information from the dictionary, allowing HTML content #}
                                     <td>{% autoescape off %}{{ flat_table|dict_get:flat_key }}{% endautoescape %}</td>
                                 {% endwith %}
                             {% endfor %}
