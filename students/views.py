@@ -24,7 +24,8 @@ def registration_view(request):
         'class_level': student.class_level,        # Current year/grade level
         'status': student.status,                  # Enrollment status (active, etc.)
         'department': student.department.department_name,  # Academic department
-        'faculty': student.department.faculty.faculty_name # Faculty/school name
+        'faculty': student.department.faculty.faculty_name, # Faculty/school name
+        'student_number': student.student_number
     })
 
 def my_courses_view(request):
