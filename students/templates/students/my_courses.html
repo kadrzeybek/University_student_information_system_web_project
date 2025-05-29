@@ -1,54 +1,76 @@
 {% extends "base.html" %}
+{# Extend the base template that contains the main layout structure #}
+
 {% load static %}
+{# Load static files for CSS, JavaScript, and images #}
 
 {% block css %}
+{# Add page-specific CSS for styling the enrollment table #}
 <link rel="stylesheet" href="{% static 'students/css/enrollment.css' %}">
 {% endblock %}
 
 {% block content %}
+{# Main content block for displaying student's enrolled courses #}
 
 <div class="d-flex">
+    {# Include the sidebar navigation component #}
     {% include 'students/includes/sidebar.html' %}
+    
+    {# Main content area containing the enrolled courses table #}
     <div class="content-wrapper w-100">
-<div class="card m-3 flex-fill">
-        <div class="card-header bg-light text-center">
-            <h4 class="mb-0">Enrolled Courses</h4>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
-                    <thead class="table-light">
-                        <tr>
-                            <th>#</th>
-                            <th>Course Code</th>
-                            <th>Course Name</th>
-                            <th>Instructor</th>
-                            <th>Credits</th>
-                            <th>Semester</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for enrollment in enrollments %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>
-                            <td>{{ enrollment.course.course_code}}</td>
-                            <td>{{ enrollment.course.course_name }}</td>
-                            <td>{{ enrollment.course.instructor.first_name }} {{ enrollment.course.instructor.last_name }}</td>
-                            <td>{{ enrollment.course.credits }}</td>
-                            <td>{{ enrollment.course.semester}}</td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6">No enrollments found.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        {# Card component for displaying enrolled courses with shadow and margin #}
+        <div class="card m-3 flex-fill">
+            {# Card header with section title #}
+            <div class="card-header bg-light text-center">
+                <h4 class="mb-0">Enrolled Courses</h4>
+            </div>
+            {# Card body containing the responsive table #}
+            <div class="card-body">
+                {# Responsive table container to handle overflow on small screens #}
+                <div class="table-responsive">
+                    {# Table displaying all enrolled courses with styling #}
+                    <table class="table table-bordered table-hover table-striped">
+                        {# Table header row with column titles #}
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Instructor</th>
+                                <th>Credits</th>
+                                <th>Semester</th>
+                            </tr>
+                        </thead>
+                        {# Table body with rows for each enrolled course #}
+                        <tbody>
+                            {# Loop through each enrollment to display course details #}
+                            {% for enrollment in enrollments %}
+                            <tr>
+                                {# Row number counter #}
+                                <td>{{ forloop.counter }}</td>
+                                {# Course identification code #}
+                                <td>{{ enrollment.course.course_code}}</td>
+                                {# Full course name/title #}
+                                <td>{{ enrollment.course.course_name }}</td>
+                                {# Course instructor's full name #}
+                                <td>{{ enrollment.course.instructor.first_name }} {{ enrollment.course.instructor.last_name }}</td>
+                                {# Number of credits for this course #}
+                                <td>{{ enrollment.course.credits }}</td>
+                                {# Which semester this course belongs to #}
+                                <td>{{ enrollment.course.semester}}</td>
+                            </tr>
+                            {# Display a message when no enrollments are found #}
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No enrollments found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    </div>
-    
 </div>
 
 {% endblock %}

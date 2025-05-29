@@ -1,41 +1,64 @@
 {% extends "base.html" %}
+{# Extend the base template that contains the main layout structure #}
+
 {% load static %}
+{# Load static files for CSS, JavaScript, and images #}
 
 {% block css %}
+{# Add page-specific CSS for styling the grades display #}
 <link rel="stylesheet" href="{% static 'students/css/grades.css' %}">
 {% endblock %}
+
 {% block content %}
+{# Main content block for displaying student grades #}
 <div class="d-flex">
+    {# Include the sidebar navigation component #}
     {% include 'students/includes/sidebar.html' %}
+    
+    {# Main content area containing the grades cards #}
     <div class="content-wrapper p-4" style="width: 100%;">
+        {# Page title #}
         <h2 class="text-center mb-4">Exam Results</h2>
 
+        {# Responsive grid layout for course grade cards #}
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            {# Loop through each course with grades #}
             {% for course in course_grades %}
             <div class="col">
+                {# Card container for individual course grade information #}
                 <div class="card h-100 shadow">
                     <div class="card-body">
+                        {# Course name and letter grade header #}
                         <h5 class="card-title d-flex justify-content-between align-items-center">
                             <span>{{ course.course_name }}</span>
+                            {# Letter grade with default empty value if not available #}
                             <span class="gpa text-primary">{{ course.letter|default:"" }}</span>
                         </h5>
+                        {# List of grade components #}
                         <ul class="list-group list-group-flush">
+                            {# Midterm exam score #}
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Midterm</span>
+                                {# Show question mark if midterm grade not available #}
                                 <span>{{ course.midterm|default:"?" }}</span>
                             </li>
+                            {# Final exam score #}
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Final</span>
+                                {# Show question mark if final grade not available #}
                                 <span>{{ course.final|default:"?" }}</span>
                             </li>
+                            {# Weighted average of midterm and final #}
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>Avarage</span>
+                                {# Show question mark if average not calculated yet #}
                                 <span>{{ course.average|default:"?" }}</span>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
+            {# Display a message when no grades are available #}
             {% empty %}
             <div class="col">
                 <div class="alert alert-info">Not bulunamadı.</div>

@@ -7,5 +7,4 @@ urlpatterns = [
     path('registration/', views.registration_view, name='student_registration'),
     path('course-program/', views.course_program_view, name='student_course_program'),
     path('my-courses/', views.my_courses_view, name='student_my_courses'),
-    #path('logout/', views.logout_view, name='logout'),
 ]
