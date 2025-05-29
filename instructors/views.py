@@ -61,13 +61,33 @@ def course_program_view(request):
 
     # Insert table data
     for schedule in schedules:
+        start_time = schedule.start_time
+        end_time = schedule.end_time
+        
+        # Saatleri sayısal değerlere dönüştür (örn. "08:00" -> 8.0)
+        start_hour = float(start_time.split(':')[0]) + float(start_time.split(':')[1])/60
+        end_hour = float(end_time.split(':')[0]) + float(end_time.split(':')[1])/60
+        
+        # Dersin tüm süresini kapsayan hücreleri işaretle
         for start, end in hours:
-            if str(schedule.start_time)[:5] == start:
+            hour_start_val = float(start.split(':')[0]) + float(start.split(':')[1])/60
+            hour_end_val = float(end.split(':')[0]) + float(end.split(':')[1])/60
+            
+            # Bu saat dilimi ders süresinin içindeyse ders bilgisini ekle
+            if hour_start_val >= start_hour and hour_start_val < end_hour:
                 flat_key = f"{start}-{end}-{schedule.day_of_week}"
-                flat_table[flat_key] = (
-                    f"{schedule.course.course_code} - {schedule.course.course_name}<br>"
-                    f"<small>{schedule.classroom.room_number}</small>"
-                )
+                
+                # İlk saat diliminde tam bilgi, diğerlerinde "continued" ekle
+                if hour_start_val == start_hour:
+                    flat_table[flat_key] = (
+                        f"{schedule.course.course_code} - {schedule.course.course_name}<br>"
+                        f"<small>{schedule.classroom.room_number}</small><br>"
+                    )
+                else:
+                    flat_table[flat_key] = (
+                        f"{schedule.course.course_code} - {schedule.course.course_name}<br>"
+                        f"<small>{schedule.classroom.room_number}</small><br>"
+                    )
 
     return render(request, 'instructors/course_program.html', {
         'flat_table': flat_table,
