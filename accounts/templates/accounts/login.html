@@ -1,53 +1,77 @@
 {% extends "base.html" %}
+{# Extend the base template that contains the main layout structure #}
+
 {% load static %}
-{% block css %} <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}"> {% endblock %}
+{# Load the static template tag to use static files #}
+
+{% block css %} 
+{# Add page-specific CSS for styling the login page #}
+<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}"> 
+{% endblock %}
 
 {% block content %}
+{# Main content block that overrides the content block in base template #}
+
+{# Vertically and horizontally centered container for the login card #}
 <div class="d-flex align-items-center justify-content-center row-full-height mt-4 mt-lg-5">
     <div class="container-fluid ">
-         <div class="row justify-content-center">
-        <div class="col-md-11 col-lg-8  box-height">
-            <div class="login-container row g-0 rounded overflow-hidden shadow">
-                <!-- Sol Panel -->
-                <div class="col-md-6 d-none d-md-block img-container">
-                    <img loading="lazy" src="{% static 'accounts/img/login.webp' %}" alt="Eğitim Görseli" class="login-img rounded-start">
-                </div>
-                <!-- Sağ Panel -->
-                <div class="col-md-6 d-flex align-items-center justify-content-center p-4 bg-white">
-                    <div class="w-100">
-                        <div class="d-flex flex-column align-items-center mb-3">
-                            <img loading="lazy" src="{% static 'img/logo.webp' %}" alt="login-img" style="width: 120px;">
-                            <h6 class="login-title text-center">METIN ZONTUL UNIVERSITY</h6>
-                        </div>
-                        
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="mb-3">
-                                <input type="text" name="username" class="form-control" placeholder="E-mail" required>
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" name="password" class="form-control" placeholder="Password" required>
+        <div class="row justify-content-center">
+            {# Control the width of the login card on different screen sizes #}
+            <div class="col-md-11 col-lg-8 box-height">
+                {# Main login card with shadow and rounded corners #}
+                <div class="login-container row g-0 rounded overflow-hidden shadow">
+                    {# Left panel - Image (hidden on small screens) #}
+                    <div class="col-md-6 d-none d-md-block img-container">
+                        <img loading="lazy" src="{% static 'accounts/img/login.webp' %}" alt="Eğitim Görseli" class="login-img rounded-start">
+                    </div>
+                    
+                    {# Right panel - Login form #}
+                    <div class="col-md-6 d-flex align-items-center justify-content-center p-4 bg-white">
+                        <div class="w-100">
+                            {# University logo and title #}
+                            <div class="d-flex flex-column align-items-center mb-3">
+                                <img class="login-logo" loading="lazy" src="{% static 'img/logo.webp' %}" alt="login-img" style="width: 120px;">
+                                <h6 class="login-title text-center">METIN ZONTUL UNIVERSITY</h6>
                             </div>
                             
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                            {# Login form - Posts credentials to the current URL #}
+                            <form method="post">
+                                {% csrf_token %}
+                                {# CSRF protection token required for POST requests #}
+                                
+                                {# Username input field #}
+                                <div class="mb-3">
+                                    <input type="text" name="username" class="form-control" placeholder="E-mail" required>
                                 </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-login w-100">Sign in</button>
-                            {% if error_message %}
-                            <div class="mb-3 ms-1 mt-2">
-                                <p class="text-danger" id="loginError">{{ error_message }}</p>
-                            </div>
-                            {% endif %}
-                        </form>
+                                
+                                {# Password input field #}
+                                <div class="mb-3">
+                                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                </div>
+                                
+                                {# Remember me checkbox #}
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                                    </div>
+                                </div>
+                                
+                                {# Login button #}
+                                <button type="submit" class="btn btn-login w-100">Sign in</button>
+                                
+                                {# Error message display - only shown when authentication fails #}
+                                {% if error_message %}
+                                    <div class="mb-3 ms-1 mt-2">
+                                        <p class="text-danger" id="loginError">{{ error_message }}</p>
+                                    </div>
+                                {% endif %}
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
 {% endblock %}

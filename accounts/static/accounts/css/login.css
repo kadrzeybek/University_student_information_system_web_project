@@ -2,7 +2,6 @@
 
 .login-container {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.09);
-    
     height: 100%;
 }
 
@@ -41,8 +40,10 @@
     color: white;
 }
 
-
-
 .box-height {
     height: 75vh;
+}
+
+.login-logo{
+    width: 100px;
 }
