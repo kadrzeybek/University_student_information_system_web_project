@@ -1,18 +1,14 @@
 {% extends "base.html" %}
-{# Extend the base template that contains the main layout structure #}
+{# Extend the base template#}
 
 {% load static %}
-{# Load the static template tag to use static files #}
 
 {% block css %} 
-{# Add page-specific CSS for styling the login page #}
 <link rel="stylesheet" href="{% static 'accounts/css/login.css' %}"> 
 {% endblock %}
 
 {% block content %}
-{# Main content block that overrides the content block in base template #}
-
-{# Vertically and horizontally centered container for the login card #}
+{# Container for the login card #}
 <div class="d-flex align-items-center justify-content-center row-full-height mt-4 mt-lg-5">
     <div class="container-fluid ">
         <div class="row justify-content-center">
@@ -41,7 +37,7 @@
                                 
                                 {# Username input field #}
                                 <div class="mb-3">
-                                    <input type="text" name="username" class="form-control" placeholder="E-mail" required>
+                                    <input type="text" name="username" class="form-control" placeholder="username" required>
                                 </div>
                                 
                                 {# Password input field #}
