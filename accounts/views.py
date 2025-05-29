@@ -10,14 +10,16 @@ def login_view(request):
         password = request.POST.get('password')
         user = Users.objects.filter(username=username).first()
 
-        if user and check_password(password, user.password_hash):
+        # Role-Based Authentication
+        # if user and check_password(password, user.password_hash):
+        if user and password == user.password_hash:
             request.session['user_id'] = user.user_id
             if user.role == "student":
                 request.session['student_id'] = user.student_id
-                return redirect('/student/homepage')  # students/urls.py'da name='profil'
+                return redirect('/student/homepage')
             elif user.role == "instructor":
                 request.session['instructor_id'] = user.instructor_id
-                return redirect('/instructor/homepage')  # Örnek: instructor ana sayfası
+                return redirect('/instructor/homepage')
             else:
                 pass
         else:
@@ -29,9 +31,8 @@ def login_view(request):
     })
 
 def logout_view(request):
-    request.session.flush()  # Tüm oturum verilerini siler
+    request.session.flush()  # Clear user data
     response = redirect('index')
-    # Önbelleğe almayı engelleyen başlıklar ekle
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'

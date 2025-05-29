@@ -11,6 +11,7 @@ class Students(models.Model):
     identity_no = models.CharField(max_length=11, unique=True, null=True, blank=True)
     class_level = models.CharField(max_length=1, default=1)
     status = models.CharField(max_length=25, null=True, blank=True)
+    student_number = models.CharField(max_length=50, null=True, blank=True)
     department = models.ForeignKey('common.Departments', on_delete=models.CASCADE)
 
     class Meta:

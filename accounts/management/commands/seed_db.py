@@ -2,51 +2,91 @@ from django.core.management.base import BaseCommand
 from students.models import Students, Enrollments
 from instructors.models import Instructors
 from common.models import Departments, Faculties, Courses, Classrooms
-from datetime import date
-from django.contrib.auth.hashers import make_password
 from accounts.models import Users
+from django.contrib.auth.hashers import make_password
+from datetime import date, time
+import random
+
+# Schedule modeli için import ekleyin
+from common.models import Schedules  # veya doğru dosya yolunu belirtin
+
+FIRST_NAMES = [
+    "John", "Emily", "Michael", "Sarah", "David", "Jessica", "Daniel", "Ashley", "Matthew", "Amanda",
+    "James", "Jennifer", "Andrew", "Hannah", "Joseph", "Lauren", "Christopher", "Megan", "Joshua", "Rachel",
+    "Brian", "Samantha", "Kevin", "Olivia", "Ryan", "Sophia", "Brandon", "Grace", "Justin", "Chloe",
+    "Ethan", "Natalie", "Benjamin", "Victoria", "Samuel", "Lily", "Alexander", "Ava", "William", "Ella"
+]
+LAST_NAMES = [
+    "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Martinez", "Hernandez",
+    "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin", "Lee",
+    "Clark", "Lewis", "Walker", "Hall", "Allen", "Young", "King", "Wright", "Scott", "Green",
+    "Baker", "AdAMS", "Nelson", "Carter", "Mitchell", "Perez", "Roberts", "Turner", "Phillips", "Campbell"
+]
+
+DEPARTMENTS = [
+    {
+        "name": "Software Engineering",
+        "short": "SE",
+        "student_count": 40,
+        "instructor_count": 5,
+        "courses": [
+            "Database Systems", "Algorithms", "Operating Systems", "Software Engineering",
+            "Web Programming", "Mobile Development", "Data Structures", "Machine Learning"
+        ]
+    },
+    {
+        "name": "Mechanical Engineering",
+        "short": "ME",
+        "student_count": 24,
+        "instructor_count": 4,
+        "courses": [
+            "Thermodynamics", "Fluid Mechanics", "Dynamics", "Statics",
+            "Heat Transfer", "Manufacturing Processes", "Machine Design"
+        ]
+    },
+    {
+        "name": "Electrical and Electronics Engineering",
+        "short": "EEE",
+        "student_count": 20,
+        "instructor_count": 4,
+        "courses": [
+            "Circuit Analysis", "Electromagnetics", "Digital Systems", "Control Systems",
+            "Microprocessors", "Power Electronics", "Signals and Systems"
+        ]
+    },
+    {
+        "name": "Industrial Engineering",
+        "short": "IE",
+        "student_count": 24,
+        "instructor_count": 4,
+        "courses": [
+            "Operations Research", "Production Planning", "Quality Control", "Supply Chain Management",
+            "Human Factors Engineering", "Simulation", "Project Management"
+        ]
+    }
+]
+
+DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+HOURS = [
+    (time(8, 30), time(10, 20)),
+    (time(10, 30), time(12, 20)),
+    (time(13, 0), time(14, 50)),
+    (time(15, 0), time(16, 50)),
+    (time(17, 0), time(18, 50))
+]
 
 class Command(BaseCommand):
-    help = "Seed the database with initial data"
+    help = "Seeds the database with sample students, instructors, courses, and enrollments for multiple departments."
 
     def handle(self, *args, **kwargs):
-        # # Var olan ilk fakülte ve departmanı kullan
-        # faculty = Faculties.objects.first()
-        # department1 = Departments.objects.filter(department_name="Yazılım Mühendisliği", faculty=faculty).first()
+        # Temizleme (isteğe bağlı)
+        Students.objects.all().delete()
+        Instructors.objects.all().delete()
+        Courses.objects.all().delete()
+        Enrollments.objects.all().delete()
+        Users.objects.all().delete()
+        Departments.objects.all().delete()
+        Faculties.objects.all().delete()
+        Classrooms.objects.all().delete()
 
-        # # Derslik ekle veya varsa kullan
-        # classroom, _ = Classrooms.objects.get_or_create(
-        #     room_number="A101",
-        #     building_name="Mühendislik Binası",
-        #     capacity=60
-        # )
-
-        # # Var olan ilk instructor'ı kullan
-        # instructor = Instructors.objects.filter(department=department1).first()
-
-        # # Ders ekle veya varsa kullan
-        # course, _ = Courses.objects.get_or_create(
-        #     course_name="Veritabanı Sistemleri",
-        #     credits=4,
-        #     department=department1,
-        #     instructor=instructor
-        # )
-
-        # # Var olan ilk öğrenciyi kullan
-        # student = Students.objects.filter(department=department1).first()
-
-        # # Öğrenciye enrollment ekle
-        # if student:
-        #     Enrollments.objects.get_or_create(
-        #         student=student,
-        #         course=course,
-        #         defaults={'enrollment_date': date.today()}
-        #     )
-
-        # Kullanıcıyı bul ve şifresini değiştir
-        user = Users.objects.filter(username="salih").first()
-        if user:
-            user.password_hash = make_password("123456*")
-            user.save()
-
-        self.stdout.write(self.style.SUCCESS("Veritabanı başarıyla dolduruldu!"))
+        self.stdout.write(self.style.SUCCESS("Database seeded successfully!"))

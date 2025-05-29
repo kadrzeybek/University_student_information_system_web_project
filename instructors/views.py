@@ -3,11 +3,12 @@ from django.contrib import messages
 from .models import Instructors
 from common.models import Courses, Schedules, Announcements
 from django.utils import timezone
-from django.db.models import Count, OuterRef, Subquery
+from django.db.models import Count
 from students.models import Enrollments, Grades
 from django.http import Http404
 
 def profile_view(request):
+    # Get instructor from database with its department and faculty
     instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).select_related("department__faculty").first()
 
     return render(request,'instructors/profile.html', context = {
@@ -26,7 +27,7 @@ def profile_view(request):
 def courses_view(request):
     instructor_id = request.session['instructor_id']
     
-    # Tek sorguda kursları ve öğrenci sayılarını çek
+    # Get course information with student count
     courses = Courses.objects.filter(
         instructor_id=instructor_id
     ).annotate(
@@ -51,14 +52,14 @@ def course_program_view(request):
     ]
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-    # Düz tablo yapısı oluştur
+    # Create a empty table
     flat_table = {}
     for hour_start, hour_end in hours:
         for day in days:
             flat_key = f"{hour_start}-{hour_end}-{day}"
             flat_table[flat_key] = ""
 
-    # Ders bilgilerini ekle
+    # Insert table data
     for schedule in schedules:
         for start, end in hours:
             if str(schedule.start_time)[:5] == start:
@@ -68,17 +69,12 @@ def course_program_view(request):
                     f"<small>{schedule.classroom.room_number}</small>"
                 )
 
-    # Template'e gönder
     return render(request, 'instructors/course_program.html', {
         'flat_table': flat_table,
         'hours': hours,
         'days': days,
         'courses': Courses.objects.filter(instructor_id=request.session['instructor_id'])
     })
-
-from django.contrib import messages
-from django.http import Http404
-from django.shortcuts import render, redirect
 
 def grades_view(request, course_id=None):
     instructor_id = request.session['instructor_id']
@@ -90,7 +86,7 @@ def grades_view(request, course_id=None):
     try:
         course = Courses.objects.get(course_id=course_id, instructor_id=instructor_id)
     except Courses.DoesNotExist:
-        raise Http404("Bu kursa erişim izniniz yok veya kurs bulunamadı.")
+        raise Http404("You do not have access to this course or course could not be founded.")
 
     enrollments = Enrollments.objects.filter(course_id=course_id).select_related('student')
 
@@ -106,7 +102,7 @@ def grades_view(request, course_id=None):
         })
 
     if request.method == 'POST':
-        hatali_kayitlar = 0
+        incorrect_records = 0
 
         for enrollment_id, values in request.POST.items():
             if enrollment_id.startswith('midterm_') or enrollment_id.startswith('final_'):
@@ -122,12 +118,12 @@ def grades_view(request, course_id=None):
                         grade.final = int(values)
                     grade.save()
                 except (Grades.DoesNotExist, ValueError):
-                    hatali_kayitlar += 1
+                    incorrect_records += 1
 
-        if hatali_kayitlar:
-            messages.warning(request, f"{hatali_kayitlar} kayıt güncellenemedi.")
+        if incorrect_records:
+            messages.warning(request, f"{incorrect_records} Record could not be updated.")
         else:
-            messages.success(request, "Notlar başarıyla kaydedildi.")
+            messages.success(request, "Grades saved successfully.")
         
         return redirect('instructor_grade_entry', course_id=course_id)
 
@@ -144,11 +140,11 @@ def announcement_create(request):
         message = request.POST.get('message')
         course_id = request.POST.get('course')
         
-        # Kurs ve instructor bilgilerini al
+        # Get course and its instructor data
         course = Courses.objects.get(course_id=course_id)
         instructor_id = request.session.get('instructor_id')
         
-        # Announcement oluştur
+        # Create a new announcement
         announcement = Announcements(
             title=title,
             message=message,
@@ -160,26 +156,19 @@ def announcement_create(request):
         
         messages.success(request, 'Announcement created successfully!')
         return redirect('instructor_homepage')
-    
-    # GET isteği için kursları getir
-    courses = Courses.objects.filter(instructor_id=request.session['instructor_id'])
-    return render(request, 'instructors/create_announcement.html', {'courses': courses})
 
 def homepage_view(request):
     instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).first()
     courses = Courses.objects.filter(instructor_id=instructor.instructor_id)
     course_count = courses.count()
     
-    # Benzersiz öğrenci sayısını bulma
-    from students.models import Enrollments
+    # Finding distinct student count
     course_ids = courses.values_list('course_id', flat=True)
-    
-    # distinct('student_id') ile tekrarlı öğrencileri filtreleme
     student_count = Enrollments.objects.filter(
         course_id__in=course_ids
     ).values('student_id').distinct().count()
     
-    # Duyuruları getir
+    # Get last 5 announcements
     announcements = Announcements.objects.filter(
         instructor_id=instructor.instructor_id
     ).select_related('course').order_by('-created_at')[:5]
