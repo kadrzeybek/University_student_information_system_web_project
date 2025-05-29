@@ -1,0 +1,33 @@
+    .profile-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .profile-card h4 {
+      color: #283745;
+      margin-bottom: 20px;
+    }
+    .profile-info {
+      font-size: 1rem;
+      margin-bottom: 0;
+      padding: 10px 0; 
+    }
+    .profile-info strong {
+      color: #283745;
+      width: 150px;
+      display: inline-block;
+    }
+    
+    hr {
+      margin: 5px 0;
+      opacity: 0.2; 
+    }
+    
+    .content-wrapper {
+      flex: 1;
+      overflow-x: hidden;
+    }
