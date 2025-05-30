@@ -111,15 +111,48 @@ def grades_view(request, course_id=None):
     enrollments = Enrollments.objects.filter(course_id=course_id).select_related('student')
 
     students_data = []
+    sum_midterm = 0
+    sum_final = 0
+    count_midterm = 0
+    count_final = 0
+    
     for enrollment in enrollments:
         grade, created = Grades.objects.get_or_create(enrollment=enrollment)
+        
+        # Not null değerleri için toplamalara ekle
+        if grade.midterm is not None:
+            sum_midterm += grade.midterm
+            count_midterm += 1
+        
+        if grade.final is not None:
+            sum_final += grade.final
+            count_final += 1
+        
+        # Toplam notu hesapla (midterm %40, final %60)
+        total = None
+        if grade.midterm is not None and grade.final is not None:
+            total = (grade.midterm * 0.4) + (grade.final * 0.6)
+        
         students_data.append({
             'enrollment_id': enrollment.enrollment_id,
             'student_id': enrollment.student.student_id,
             'student_name': f"{enrollment.student.first_name} {enrollment.student.last_name}",
             'midterm': grade.midterm,
-            'final': grade.final
+            'final': grade.final,
+            'total': round(total, 2) if total is not None else None
         })
+
+    # Sınıf ortalamalarını hesapla
+    avg_midterm = round(sum_midterm / count_midterm, 2) if count_midterm > 0 else 0
+    avg_final = round(sum_final / count_final, 2) if count_final > 0 else 0
+    avg_total = round((avg_midterm * 0.4) + (avg_final * 0.6), 2) if avg_midterm > 0 and avg_final > 0 else 0
+
+    class_averages = {
+        'avg_midterm': avg_midterm,
+        'avg_final': avg_final,
+        'avg_total': avg_total,
+        'count_students': len(students_data)
+    }
 
     if request.method == 'POST':
         incorrect_records = 0
@@ -132,10 +165,12 @@ def grades_view(request, course_id=None):
 
                 try:
                     grade = Grades.objects.get(enrollment_id=enroll_id)
-                    if field_type == 'midterm' and values:
-                        grade.midterm = int(values)
-                    elif field_type == 'final' and values:
-                        grade.final = int(values)
+                    if field_type == 'midterm':
+                        # Set to None if empty value is submitted
+                        grade.midterm = int(values) if values.strip() else None
+                    elif field_type == 'final':
+                        # Set to None if empty value is submitted
+                        grade.final = int(values) if values.strip() else None
                     grade.save()
                 except (Grades.DoesNotExist, ValueError):
                     incorrect_records += 1
@@ -150,7 +185,8 @@ def grades_view(request, course_id=None):
     return render(request, 'instructors/grades.html', {
         'course': course,
         'courses': courses,
-        'students_data': students_data
+        'students_data': students_data,
+        'class_averages': class_averages  # Ortalama bilgileri şablona aktarılır
     })
 
 
