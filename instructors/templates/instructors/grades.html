@@ -49,11 +49,11 @@
                                         <td>{{ student.student_id }}</td>
                                         <td>{{ student.student_name }}</td>
                                         <td>
-                                            <input name="midterm_{{ student.enrollment_id }}" class="form-control" min="0" max="100" 
+                                            <input type="number" name="midterm_{{ student.enrollment_id }}" class="form-control" min="0" max="100" 
                                                   value="{{ student.midterm|default_if_none:'' }}">
                                         </td>
                                         <td>
-                                            <input name="final_{{ student.enrollment_id }}" class="form-control" min="0" max="100" 
+                                            <input type="number" name="final_{{ student.enrollment_id }}" class="form-control" min="0" max="100" 
                                                   value="{{ student.final|default_if_none:'' }}">
                                         </td>
                                     </tr>
