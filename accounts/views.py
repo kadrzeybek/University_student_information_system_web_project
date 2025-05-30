@@ -20,18 +20,17 @@ def login_view(request):
         user = Users.objects.filter(username=username).first()
 
         # Role-Based Authentication
-        # if user and check_password(password, user.password_hash):
-        if user and password == user.password_hash:
+        if user and check_password(password, user.password_hash):
             request.session['user_id'] = user.user_id
             
             # Route user to appropriate dashboard based on role
             if user.role == "student":
                 # Store student-specific session data
-                request.session['student_id'] = user.student_id
+                request.session['student_id'] = user.student.student_id
                 return redirect('/student/homepage')
             elif user.role == "instructor":
                 # Store instructor-specific session data
-                request.session['instructor_id'] = user.instructor_id
+                request.session['instructor_id'] = user.instructor.instructor_id
                 return redirect('/instructor/homepage')
             else:
                 # Future support for additional roles
