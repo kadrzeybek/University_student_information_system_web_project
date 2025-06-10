@@ -24,7 +24,7 @@ def login_view(request):
             request.session['user_id'] = user.user_id
             
             # Route user to appropriate dashboard based on role
-            if user.role == "student":
+            if user.role == "student": 
                 # Store student-specific session data
                 request.session['student_id'] = user.student.student_id
                 return redirect('/student/homepage')

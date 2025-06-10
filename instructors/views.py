@@ -135,7 +135,7 @@ def grades_view(request, course_id=None):
         
         students_data.append({
             'enrollment_id': enrollment.enrollment_id,
-            'student_id': enrollment.student.student_id,
+            'student_id': enrollment.student.student_number,
             'student_name': f"{enrollment.student.first_name} {enrollment.student.last_name}",
             'midterm': grade.midterm,
             'final': grade.final,
