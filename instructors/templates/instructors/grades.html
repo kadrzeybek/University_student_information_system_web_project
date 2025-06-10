@@ -20,14 +20,14 @@
         <div class="col">
             <div class="card shadow rounded">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0 course-head">Ders: {{ course.course_code }} - {{ course.course_name }}</h5>
+                    <h5 class="mb-0 course-head">Course: {{ course.course_code }} - {{ course.course_name }}</h5>
                     <div class="text-end">
                         <span class="badge bg-primary">Class Average: {{ class_averages.avg_total }}</span>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="mb-3 d-flex justify-content-end">
-                        <input type="text" id="searchInput" class="form-control " placeholder="Öğrenci ara...">
+                        <input type="text" id="searchInput" class="form-control " placeholder="Search...">
                     </div>
 
                     <form action="{% url 'instructor_grade_entry' course.course_id %}" method="post">
@@ -70,7 +70,7 @@
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="6" class="text-center">Bu derse kayıtlı öğrenci bulunmamaktadır.</td>
+                                        <td colspan="6" class="text-center">There are no students enrollled this course.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -91,7 +91,7 @@
                             {% endif %}
 
                         <div class="text-end mt-3">
-                            <button type="submit" class="btn btn-lg btn-primary">Kaydet</button>
+                            <button type="submit" class="btn btn-lg btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
