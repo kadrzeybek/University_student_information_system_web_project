@@ -46,7 +46,7 @@
                                                 Which course is it for?
                                             </button>
                                         </h2>
-                                        <!-- Dinamik kurs listesi için -->
+                                        <!-- Dynamic Course list -->
                                         <div id="collapseCourses" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
                                             <div class="accordion-body">
                                                 {% csrf_token %}
@@ -89,7 +89,7 @@
                         <div class="card-header bg-secondary text-white">
                             <h5 class="mb-0">📨 Previous Announcements</h5>
                         </div>
-                        <!-- Dinamik duyuru listesi için -->
+                        <!-- Dynamic Announcement list -->
                         <div class="card-body">
                             <ul class="list-group">
                                 {% for announcement in announcements %}

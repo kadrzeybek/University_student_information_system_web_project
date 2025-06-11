@@ -7,6 +7,32 @@ from django.db.models import Count
 from students.models import Enrollments, Grades
 from django.http import Http404
 
+def homepage_view(request):
+    instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).first()
+    courses = Courses.objects.filter(instructor_id=instructor.instructor_id)
+    course_count = courses.count()
+    
+    # Finding distinct student count
+    course_ids = courses.values_list('course_id', flat=True)
+    student_count = Enrollments.objects.filter(
+        course_id__in=course_ids
+    ).values('student_id').distinct().count()
+    
+    # Get last 5 announcements
+    announcements = Announcements.objects.filter(
+        instructor_id=instructor.instructor_id
+    ).select_related('course').order_by('-created_at')[:5]
+    
+    return render(request, 'instructors/homepage.html', {
+        'first_name': instructor.first_name,
+        'last_name': instructor.last_name,
+        'title': instructor.title,
+        'course_count': course_count,
+        'student_count': student_count,
+        'courses': courses,
+        'announcements': announcements
+    })
+
 def profile_view(request):
     # Get instructor from database with its department and faculty
     instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).select_related("department__faculty").first()
@@ -212,29 +238,3 @@ def announcement_create(request):
         
         messages.success(request, 'Announcement created successfully!')
         return redirect('instructor_homepage')
-
-def homepage_view(request):
-    instructor = Instructors.objects.filter(instructor_id=request.session['instructor_id']).first()
-    courses = Courses.objects.filter(instructor_id=instructor.instructor_id)
-    course_count = courses.count()
-    
-    # Finding distinct student count
-    course_ids = courses.values_list('course_id', flat=True)
-    student_count = Enrollments.objects.filter(
-        course_id__in=course_ids
-    ).values('student_id').distinct().count()
-    
-    # Get last 5 announcements
-    announcements = Announcements.objects.filter(
-        instructor_id=instructor.instructor_id
-    ).select_related('course').order_by('-created_at')[:5]
-    
-    return render(request, 'instructors/homepage.html', {
-        'first_name': instructor.first_name,
-        'last_name': instructor.last_name,
-        'title': instructor.title,
-        'course_count': course_count,
-        'student_count': student_count,
-        'courses': courses,
-        'announcements': announcements
-    })

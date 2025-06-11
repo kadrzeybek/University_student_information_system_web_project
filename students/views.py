@@ -2,6 +2,59 @@ from django.shortcuts import render, redirect
 from .models import Students, Enrollments, Grades
 from common.models import Schedules, Announcements
 
+
+def homepage_view(request):
+    """
+    Renders the student dashboard homepage with key academic information.
+    
+    Includes personal details, course counts, GPA calculation, enrollment status,
+    and recent announcements from enrolled courses.
+    """
+    student_id = request.session['student_id']
+    student = Students.objects.filter(student_id=student_id).first()
+    
+    enrollments = Enrollments.objects.filter(
+        student_id=student_id
+    )
+    course_ids = enrollments.values_list('course_id', flat=True) 
+    course_count = enrollments.count()  # Calculate total number of courses
+    
+    grades = Grades.objects.filter(
+        enrollment__student_id=student_id
+    ).select_related('enrollment__course')
+    
+    total_credit = 0
+    weighted_sum = 0
+    
+    for grade in grades:
+        if grade.midterm is not None and grade.final is not None:
+            course = grade.enrollment.course
+            course_credit = getattr(course, 'credit', 1) 
+            
+            course_grade = grade.midterm * 0.4 + grade.final * 0.6
+            
+            gpa_point = course_grade / 25
+            
+            total_credit += course_credit
+            weighted_sum += course_credit * gpa_point
+    
+    # Calculate final GPA
+    gpa = round(weighted_sum / total_credit, 2) if total_credit > 0 else 0
+    
+    announcements = Announcements.objects.filter(
+        course_id__in=course_ids
+    ).select_related('course', 'instructor').order_by('-created_at')
+    
+    # Render the dashboard
+    return render(request, 'students/homepage.html', {
+        'student': student,               # Student personal information
+        'course_count': course_count,     # Number of enrolled courses
+        'gpa': gpa,                       # Calculated GPA on 4.0 scale
+        'semester': student.class_level,  # Current academic term/year
+        'announcements': announcements,   # Course-related announcements
+        'status': student.status          # Current enrollment status
+    })
+
 def registration_view(request):
     """
     Displays student registration and personal information.
@@ -40,67 +93,6 @@ def my_courses_view(request):
     # Render template with enrollment data
     return render(request, 'students/my_courses.html', context={
         'enrollments': enrollments  # List of course enrollments with course details
-    })
-
-def homepage_view(request):
-    """
-    Renders the student dashboard homepage with key academic information.
-    
-    Includes personal details, course counts, GPA calculation, enrollment status,
-    and recent announcements from enrolled courses.
-    """
-    student_id = request.session['student_id']
-    
-    # Retrieve basic student information
-    student = Students.objects.filter(student_id=student_id).first()
-    
-    # Get all courses the student is enrolled in
-    enrollments = Enrollments.objects.filter(
-        student_id=student_id
-    )
-    course_ids = enrollments.values_list('course_id', flat=True)  # Extract just the course IDs
-    course_count = enrollments.count()  # Calculate total number of courses
-    
-    # Retrieve grade information for GPA calculation
-    grades = Grades.objects.filter(
-        enrollment__student_id=student_id
-    ).select_related('enrollment__course')
-    
-    # Calculate GPA on a 4.0 scale
-    total_credit = 0
-    weighted_sum = 0
-    
-    for grade in grades:
-        if grade.midterm is not None and grade.final is not None:
-            course = grade.enrollment.course
-            course_credit = getattr(course, 'credit', 1)  # Default to 1 if credit field missing
-            
-            # Calculate weighted average: 40% midterm + 60% final
-            course_grade = grade.midterm * 0.4 + grade.final * 0.6
-            
-            # Convert from 100-point scale to 4.0 scale
-            gpa_point = course_grade / 25
-            
-            # Add to running totals for weighted GPA calculation
-            total_credit += course_credit
-            weighted_sum += course_credit * gpa_point
-    
-    # Calculate final GPA, rounded to 2 decimal places
-    gpa = round(weighted_sum / total_credit, 2) if total_credit > 0 else 0
-    
-    # Get announcements from all courses the student is taking
-    announcements = Announcements.objects.filter(
-        course_id__in=course_ids
-    ).select_related('course', 'instructor').order_by('-created_at')
-    
-    # Render the dashboard with all calculated and retrieved information
-    return render(request, 'students/homepage.html', {
-        'student': student,               # Student personal information
-        'course_count': course_count,     # Number of enrolled courses
-        'gpa': gpa,                       # Calculated GPA on 4.0 scale
-        'semester': student.class_level,  # Current academic term/year
-        'announcements': announcements,   # Course-related announcements
-        'status': student.status          # Current enrollment status
     })
 
 def grades_view(request):

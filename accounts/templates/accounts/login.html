@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{# Extend the base template#}
 
 {% load static %}
 
@@ -8,50 +7,36 @@
 {% endblock %}
 
 {% block content %}
-{# Container for the login card #}
 <div class="d-flex align-items-center justify-content-center row-full-height mt-4 mt-lg-5">
     <div class="container-fluid ">
         <div class="row justify-content-center">
-            {# Control the width of the login card on different screen sizes #}
             <div class="col-md-11 col-lg-8 box-height">
-                {# Main login card with shadow and rounded corners #}
                 <div class="login-container row g-0 rounded overflow-hidden shadow">
-                    {# Left panel - Image (hidden on small screens) #}
                     <div class="col-md-6 d-none d-md-block img-container">
                         <img loading="lazy" src="{% static 'accounts/img/login.webp' %}" alt="Eğitim Görseli" class="login-img rounded-start">
                     </div>
-                    
                     {# Right panel - Login form #}
                     <div class="col-md-6 d-flex align-items-center justify-content-center p-4 bg-white">
                         <div class="w-100">
-                            {# University logo and title #}
                             <div class="d-flex flex-column align-items-center mb-3">
                                 <img class="login-logo" loading="lazy" src="{% static 'img/logo.webp' %}" alt="login-img" style="width: 120px;">
                                 <h6 class="login-title text-center">METIN ZONTUL UNIVERSITY</h6>
                             </div>
-                            
-                            {# Login form - Posts credentials to the current URL #}
                             <form method="post">
                                 {% csrf_token %}
-                                {# CSRF protection token required for POST requests #}
-                                
-                                {# Username input field #}
                                 <div class="mb-3">
                                     <input type="text" name="username" class="form-control" placeholder="username" required>
                                 </div>
-                                
-                                {# Password input field #}
                                 <div class="mb-3">
                                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                                 </div>
                                 
-                                {# Error message display - only shown when authentication fails #}
+                                {# Error message #}
                                 {% if error_message %}
                                     <div class="mb-3 ms-1 mt-2">
                                         <p class="text-danger" id="loginError">{{ error_message }}</p>
                                     </div>
                                 {% endif %}
-                                {# Login button #}
                                 <button type="submit" class="btn btn-login w-100">Sign in</button>
                             </form>
                         </div>

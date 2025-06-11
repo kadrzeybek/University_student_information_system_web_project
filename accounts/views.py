@@ -12,18 +12,14 @@ def login_view(request):
     error_message = None
     
     if request.method == "POST":
-        # Extract user credentials from form submission
         username = request.POST.get('username')
         password = request.POST.get('password')
         
-        # Query database for user with matching username
         user = Users.objects.filter(username=username).first()
 
         # Role-Based Authentication
         if user and check_password(password, user.password_hash):
             request.session['user_id'] = user.user_id
-            
-            # Route user to appropriate dashboard based on role
             if user.role == "student": 
                 # Store student-specific session data
                 request.session['student_id'] = user.student.student_id
@@ -33,13 +29,11 @@ def login_view(request):
                 request.session['instructor_id'] = user.instructor.instructor_id
                 return redirect('/instructor/homepage')
             else:
-                # Future support for additional roles
                 pass
         else:
-            # Authentication failed - set error message
+            # Authentication failed
             error_message = "Invalid username or password"
 
-    # Render login page with error message if authentication failed
     return render(request, 'accounts/login.html', {
         'is_login_page': True,
         'error_message': error_message
