@@ -10,9 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='grades',
-            name='grade_value',
-            field=models.IntegerField(null=True),
-        ),
     ]
